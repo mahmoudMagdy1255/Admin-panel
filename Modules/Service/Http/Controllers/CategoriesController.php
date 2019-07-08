@@ -71,7 +71,10 @@ class CategoriesController extends Controller {
 	 * @return Response
 	 */
 	public function edit($id) {
-		return view('service::edit');
+		$category = $this->serviceCategoryRepository->find($id);
+		$title = trans('adminpanel::adminpanel.edit');
+
+		return view('service::categories.edit', compact('category', 'title'));
 	}
 
 	/**

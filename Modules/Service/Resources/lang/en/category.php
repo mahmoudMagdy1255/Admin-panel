@@ -6,6 +6,7 @@ return [
 	'id' => 'ID',
 	'title' => 'Title',
 	'desc' => 'Description',
+	'image' => 'Image',
 	'password' => 'Password',
 	'category' => 'Category',
 

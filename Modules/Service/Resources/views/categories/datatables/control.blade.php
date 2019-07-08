@@ -1,12 +1,12 @@
-<a class="btn btn-primary" href="{{ route('users.edit' , $id) }}">
+<a class="btn btn-primary" href="{{ route('service-categories.edit' , $id) }}">
 	<i class="fa fa-edit"></i>
 </a>
 
-<a class="btn btn-danger" href="{{ route('users.destroy' , $id) }}" data-toggle="modal" data-target="#del_admin{{ $id }}">
+<a class="btn btn-danger" href="{{ route('service-categories.destroy' , $id) }}" data-toggle="modal" data-target="#del_admin{{ $id }}">
 	<i class="fa fa-trash"></i>
 </a>
 
-<a class="btn btn-warning" href="{{ route('users.show' , $id) }}">
+<a class="btn btn-warning" href="{{ route('service-categories.show' , $id) }}">
 	<i class="fa fa-eye"></i>
 </a>
 
@@ -19,14 +19,14 @@
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         <h4 class="modal-title">@lang('adminpanel::adminpanel.delete')</h4>
       </div>
-      {!! Form::open(['route'=>['users.destroy',$id],'method'=>'DELETE']) !!}
+      {!! Form::open(['route'=>['service-categories.destroy',$id],'method'=>'DELETE']) !!}
       <div class="modal-body">
 
       	@php
-      		$user = trans('user::user.user')
+      		$category = trans('service::category.category')
       	@endphp
 
-        <h4>@lang('adminpanel::adminpanel.delete_this',[ 'type' => $user , 'name'=>$full_name])</h4>
+        <h4>@lang('adminpanel::adminpanel.delete_this',[ 'type' => $category , 'name'=>$title])</h4>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-info" data-dismiss="modal">@lang('adminpanel::adminpanel.close')</button>

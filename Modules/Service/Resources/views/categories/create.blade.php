@@ -16,8 +16,8 @@
 <script src="{{ admin_design('plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js')}}"></script>
 
 <script src="{{ admin_design('jstree/jstree.js') }}"></script>
-<script src="{{ admin_design('jstree.checkbox.js') }}"></script>
-<script src="{{ admin_design('jstree.wholerow.js') }}"></script>
+<script src="{{ admin_design('jstree/jstree.checkbox.js') }}"></script>
+<script src="{{ admin_design('jstree/jstree.wholerow.js') }}"></script>
 
 <script>
   $(function () {

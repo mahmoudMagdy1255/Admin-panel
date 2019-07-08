@@ -15,9 +15,10 @@ class ServiceCategoryDatatable extends DataTable {
 	 */
 	public function dataTable($query) {
 		return datatables($query)
-			->addColumn('control', 'user::categories.datatables.control')
-			->addColumn('image', 'user::categories.datatables.image')
-			->rawColumns(['control', 'image']);
+			->addColumn('control', 'service::categories.datatables.control')
+			->addColumn('image', 'service::categories.datatables.image')
+			->addColumn('desc', 'service::categories.datatables.desc')
+			->rawColumns(['control', 'image', 'desc']);
 	}
 
 	/**
@@ -64,22 +65,22 @@ class ServiceCategoryDatatable extends DataTable {
 			[
 				'name' => 'id',
 				'data' => 'id',
-				'title' => trans('service::service.id'),
+				'title' => trans('service::category.id'),
 			],
 			[
 				'name' => 'title',
 				'data' => 'title',
-				'title' => trans('service::service.title'),
+				'title' => trans('service::category.title'),
 			],
 			[
 				'name' => 'desc',
 				'data' => 'desc',
-				'title' => trans('service::service.desc'),
+				'title' => trans('service::category.desc'),
 			],
 			[
 				'name' => 'image',
 				'data' => 'image',
-				'title' => trans('service::service.image'),
+				'title' => trans('service::category.image'),
 				'printable' => false,
 				'searchable' => false,
 				'orderable' => false,
