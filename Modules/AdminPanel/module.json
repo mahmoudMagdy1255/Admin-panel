@@ -1,0 +1,14 @@
+{
+    "name": "AdminPanel",
+    "alias": "adminpanel",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\AdminPanel\\Providers\\AdminPanelServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

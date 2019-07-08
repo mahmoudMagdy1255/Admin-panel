@@ -1,0 +1,47 @@
+[debug] [2019-07-07T21:22:29.055Z] ----------------------------------------------------------------------
+[debug] [2019-07-07T21:22:29.058Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\mego\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js login
+[debug] [2019-07-07T21:22:29.058Z] CLI Version:   7.0.2
+[debug] [2019-07-07T21:22:29.058Z] Platform:      win32
+[debug] [2019-07-07T21:22:29.058Z] Node Version:  v10.6.0
+[debug] [2019-07-07T21:22:29.060Z] Time:          Sun Jul 07 2019 14:22:29 GMT-0700 (Pacific Daylight Time)
+[debug] [2019-07-07T21:22:29.060Z] ----------------------------------------------------------------------
+[debug] 
+[info] 
+[info] Visit this URL on any device to log in:
+[info] https://accounts.google.com/o/oauth2/auth?client_id=563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com&scope=email%20openid%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcloudplatformprojects.readonly%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Ffirebase%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcloud-platform&response_type=code&state=474673782&redirect_uri=http%3A%2F%2Flocalhost%3A9005
+[info] 
+[info] Waiting for authentication...
+[debug] [2019-07-07T21:22:37.751Z] AssertionError [ERR_ASSERTION]: 6598 == 0
+    at ClientRequest.onConnect (C:\Users\mego\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\tunnel-agent\index.js:160:14)
+    at Object.onceWrapper (events.js:273:13)
+    at ClientRequest.emit (events.js:182:13)
+    at ClientRequest.EventEmitter.emit (domain.js:442:20)
+    at Socket.socketOnData (_http_client.js:465:11)
+    at Socket.emit (events.js:182:13)
+    at Socket.EventEmitter.emit (domain.js:442:20)
+    at addChunk (_stream_readable.js:283:12)
+    at readableAddChunk (_stream_readable.js:264:11)
+    at Socket.Readable.push (_stream_readable.js:219:10)
+[error] 
+[error] Error: An unexpected error has occurred.
+[debug] [2019-07-07T21:22:55.142Z] ----------------------------------------------------------------------
+[debug] [2019-07-07T21:22:55.155Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\mego\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js login
+[debug] [2019-07-07T21:22:55.155Z] CLI Version:   7.0.2
+[debug] [2019-07-07T21:22:55.155Z] Platform:      win32
+[debug] [2019-07-07T21:22:55.156Z] Node Version:  v10.6.0
+[debug] [2019-07-07T21:22:55.158Z] Time:          Sun Jul 07 2019 14:22:55 GMT-0700 (Pacific Daylight Time)
+[debug] [2019-07-07T21:22:55.158Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2019-07-07T21:22:55.306Z] AssertionError [ERR_ASSERTION]: 6598 == 0
+    at ClientRequest.onConnect (C:\Users\mego\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\tunnel-agent\index.js:160:14)
+    at Object.onceWrapper (events.js:273:13)
+    at ClientRequest.emit (events.js:182:13)
+    at ClientRequest.EventEmitter.emit (domain.js:442:20)
+    at Socket.socketOnData (_http_client.js:465:11)
+    at Socket.emit (events.js:182:13)
+    at Socket.EventEmitter.emit (domain.js:442:20)
+    at addChunk (_stream_readable.js:283:12)
+    at readableAddChunk (_stream_readable.js:264:11)
+    at Socket.Readable.push (_stream_readable.js:219:10)
+[error] 
+[error] Error: An unexpected error has occurred.
