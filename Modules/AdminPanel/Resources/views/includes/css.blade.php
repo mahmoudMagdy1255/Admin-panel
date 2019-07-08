@@ -8,7 +8,21 @@
 <!-- Theme style -->
 <link rel="stylesheet" href="{{admin_design('dist/css/AdminLTE.min.css')}}">
 <!-- AdminLTE Skins. Choose a skin from the css/skins
-     folder instead of downloading all of them to reduce the load. -->
+ folder instead of downloading all of them to reduce the load. -->
+
+ @if(App()->getLocale() == 'ar')
+   <link rel="stylesheet" href="{{ admin_design('bootstrap/css/bootstrap-rtl.min.css') }}">
+   <link rel="stylesheet" href="{{ admin_design('dist/css/AdminLTE-rtl.min.css') }}">
+   <link rel="stylesheet" href="{{ admin_design('dist/css/skins/_all-skins-rtl.min.css') }}">
+ @endif
+
+<link href="https://fonts.googleapis.com/css?family=Cairo&display=swap" rel="stylesheet">
+<style>
+ body {
+  font-family: 'Cairo', sans-serif;
+ }
+</style>
+
 <link rel="stylesheet" href="{{admin_design('dist/css/skins/_all-skins.min.css')}}">
 <!-- Morris chart -->
 <link rel="stylesheet" href="{{admin_design('bower_components/morris.js/morris.css')}}">
