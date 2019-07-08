@@ -14,5 +14,10 @@ return [
 	'created' => 'Data Crreated Successfully',
 	'updated' => 'Data Updated Successfully',
 	'edit' => 'تعديل',
-
+    'online' => 'متصل',
+    'main_navigation' => 'القائمة الرئيسية',
+    'search' => 'بحث...',
+    'admins'=> 'المشرفين',
+    'users' => 'الاعضاء',
+    'choose_first'=>'اختر بيانات اولا للحذف',
 ];

@@ -31,7 +31,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale(),'middleware' => [ 'lo
 
 
             Route::resource('/admins', 'AdminController');
-
+            Route::delete('/delete/all/admins','AdminController@delete_all')->name('delete_admins');
         });
 
     });
