@@ -20,7 +20,7 @@ class CreateServiceCategoriesTable extends Migration {
 
 		Schema::create('service_category_translations', function (Blueprint $table) {
 			$table->increments('id');
-			$table->integer('service_category_id')->unsigned();
+			$table->bigInteger('service_category_id')->unsigned();
 			$table->string('title');
 			$table->string('desc');
 			$table->string('locale')->index();

@@ -10,16 +10,18 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::group(['prefix' => LaravelLocalization::setLocale(),'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath' ]],function() {
 
-Route::prefix('admin')->group(function() {
+    Route::prefix('admin')->group(function () {
 
 
-    Route::group(['middleware' => 'admin:admin'] , function (){
+        Route::group(['middleware' => 'admin:admin'], function () {
 
-        Route::get('/', 'AdminPanelController@index')->name('admin.dashboard');
+            Route::get('/', 'AdminPanelController@index')->name('admin.dashboard');
+
+
+        });
 
 
     });
-
-
 });

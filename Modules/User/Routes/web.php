@@ -10,8 +10,12 @@
 | contains the "web" middleware group. Now create something great!
 |
  */
-Route::prefix('admin')->middleware('admin')->group(function () {
+Route::group(['prefix' => LaravelLocalization::setLocale(),'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath' ]],function() {
 
-	Route::resource('/users', 'UsersController');
+    Route::prefix('admin')->middleware('admin')->group(function () {
+
+        Route::resource('/users', 'UsersController');
+
+    });
 
 });
