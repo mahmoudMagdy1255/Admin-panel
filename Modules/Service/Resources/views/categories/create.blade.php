@@ -50,12 +50,18 @@
           <!-- Custom Tabs -->
           <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
-              <li class="active"><a  class="alert alert-warning" href="#tab_1" data-toggle="tab">@lang('adminpanel::adminpanel.english')</a></li>
+              @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+                <li class="active">
+                  <a  class="btn btn-warning" href="#tab_{{ $localeCode }}" data-toggle="tab">
+                    {{ $properties['native'] }}
+                  </a>
+                </li>
+              @endforeach
             </ul>
 
             <div class="tab-content">
-
-              <div class="tab-pane active" id="tab_1">
+              @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+              <div class="tab-pane {{ $loop->first ? 'active' : '' }}" id="tab_{{ $localeCode }}">
 
                 <div class="box">
                   <div class="box-header">
@@ -64,15 +70,31 @@
                   <!-- /.box-header -->
                   <div class="box-body">
                     {!! Form::open(['route' => 'service-categories.store' , 'files' => true]) !!}
+
+
                     <div class="form-group">
                       {!! Form::label('title' ,  trans('service::category.title')) !!}
-                      {!! Form::text('title' , old('title') , ['class' => 'form-control'] ) !!}
+                      {!! Form::text( 'title' , old('title') , ['class' => 'form-control'] ) !!}
                     </div>
 
                     <div class="form-group">
                       {!! Form::label('desc' ,  trans('service::category.desc') ) !!}
                       {!! Form::textarea('desc' , old('desc') , ['id' => 'desc' , 'class' => 'form-control'] ) !!}
                     </div>
+
+                  </div>
+                  <!-- /.box-body -->
+                </div>
+
+              </div>
+             @endforeach
+
+
+
+
+            </div>
+            <!-- /.tab-content -->
+
 
                     <div id="jstree"></div>
 
@@ -87,15 +109,6 @@
 
                     {!! Form::submit( trans('adminpanel::adminpanel.add_new') , ['class' => 'btn btn-primary'] ) !!}
                     {!! Form::close() !!}
-                  </div>
-                  <!-- /.box-body -->
-              </div>
-
-              </div>
-
-
-            </div>
-            <!-- /.tab-content -->
           </div>
           <!-- nav-tabs-custom -->
         </div>

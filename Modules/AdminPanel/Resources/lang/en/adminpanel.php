@@ -14,6 +14,5 @@ return [
 	'created' => 'Data Crreated Successfully',
 	'updated' => 'Data Updated Successfully',
 	'edit' => 'Edit',
-	'english' => 'English',
 
 ];
