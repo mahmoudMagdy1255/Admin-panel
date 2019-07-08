@@ -13,7 +13,7 @@ class CreateServiceCategoriesTable extends Migration {
 	public function up() {
 		Schema::create('service_categories', function (Blueprint $table) {
 			$table->bigIncrements('id');
-			$table->string('image');
+			$table->string('image')->nullable();
 			$table->bigInteger('parent_id')->unsigned()->nullable();
 			$table->timestamps();
 		});

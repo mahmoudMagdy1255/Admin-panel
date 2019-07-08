@@ -3,10 +3,10 @@
 namespace Modules\Service\Http\Controllers;
 
 use App\DataTables\ServiceCategoryDatatable;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Modules\Common\Services\LocalFiles;
+use Modules\Service\Http\Requests\ServiceStoreFormRequest;
 use Modules\Service\Repositories\ServiceCategoryRepository;
 
 class CategoriesController extends Controller {
@@ -45,8 +45,15 @@ class CategoriesController extends Controller {
 	 * @param Request $request
 	 * @return Response
 	 */
-	public function store(Request $request) {
-		//
+	public function store(ServiceStoreFormRequest $request) {
+		$data = $request->validated();
+
+		$data['image'] = $this->storeFile('image', 'admins');
+		$data = array_filter($data);
+
+		$this->serviceCategoryRepository->create($data);
+
+		return redirect()->route('service-categories.index')->with('success', trans('adminpanel::adminpanel.created'));
 	}
 
 	/**

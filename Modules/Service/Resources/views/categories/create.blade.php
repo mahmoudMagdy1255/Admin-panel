@@ -63,7 +63,7 @@
                   </div>
                   <!-- /.box-header -->
                   <div class="box-body">
-                    {!! Form::open(['route' => 'users.store' , 'files' => true]) !!}
+                    {!! Form::open(['route' => 'service-categories.store' , 'files' => true]) !!}
                     <div class="form-group">
                       {!! Form::label('title' ,  trans('service::category.title')) !!}
                       {!! Form::text('title' , old('title') , ['class' => 'form-control'] ) !!}

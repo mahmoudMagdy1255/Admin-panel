@@ -9,7 +9,11 @@ class ServiceCategory extends Model {
 
 	use Translatable;
 
-	protected $tanslatedAttributes = ['title', 'desc'];
+	public function getImageAttribute($image) {
+		return 'public/upload/services/categories/' . $image;
+	}
+
+	protected $translatedAttributes = ['title', 'desc'];
 
 	protected $fillable = ['image', 'parent_id'];
 }
