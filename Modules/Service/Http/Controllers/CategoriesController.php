@@ -105,8 +105,9 @@ class CategoriesController extends Controller {
 	 * @return Response
 	 */
 	public function destroy($id) {
-		$category = $this->serviceCategoryRepository->find($id);
-		$this->serviceCategoryRepository->destroy($category->id);
+		$category = $this->serviceCategoryRepository->findOrFail($id);
+
+		$this->serviceCategoryRepository->delete($category);
 		$this->deleteFile($category->image);
 		return back()->with('success', trans('adminpanel::adminpanel.deleted'));
 

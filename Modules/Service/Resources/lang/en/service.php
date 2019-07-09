@@ -2,9 +2,9 @@
 
 return [
 	'services' => 'Services',
-	'full_name' => 'Full Name',
 	'id' => 'ID',
-	'email' => 'Email',
+	'title' => 'Title',
+	'desc' => 'Description',
 	'image' => 'Image',
 	'password' => 'Password',
 	'service' => 'Service',

@@ -15,5 +15,11 @@ class ServiceCategoryRepository extends BaseRepository {
 
 		return $model->update($data);
 	}
+	public function delete($category) {
+		$category->deleteTranslations();
+
+		$category->delete();
+
+	}
 
 }

@@ -3,13 +3,14 @@
 namespace Modules\Service\Http\Controllers;
 
 use App\DataTables\ServiceDatatable;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Modules\Common\Services\LocalFiles;
+use Modules\Service\Http\Requests\ServiceStoreFormRequest;
+use Modules\Service\Http\Requests\ServiceUpdateFormRequest;
 use Modules\Service\Repositories\ServiceRepository;
 
-class ServicesController extends Controller {
+class servicesController extends Controller {
 	use LocalFiles;
 	/**
 	 * Display a listing of the resource.
@@ -24,8 +25,8 @@ class ServicesController extends Controller {
 	 */
 
 	public function index(ServiceDatatable $serviceDatatable) {
-		$title = trans('user::user.users');
-		return $serviceDatatable->render('service::index', compact('title'));
+		$title = trans('service::service.services');
+		return $serviceDatatable->render('service::services.index', compact('title'));
 
 	}
 
@@ -34,7 +35,10 @@ class ServicesController extends Controller {
 	 * @return Response
 	 */
 	public function create() {
-		return view('service::create');
+
+		$title = trans('adminpanel::adminpanel.add_new');
+
+		return view('service::services.create', compact('title'));
 	}
 
 	/**
@@ -42,8 +46,15 @@ class ServicesController extends Controller {
 	 * @param Request $request
 	 * @return Response
 	 */
-	public function store(Request $request) {
-		//
+	public function store(ServiceStoreFormRequest $request) {
+		$data = $request->validated();
+
+		$data['image'] = $this->storeFile('image', 'services/services');
+		$data = array_filter($data);
+
+		$this->serviceRepository->create($data);
+
+		return redirect()->route('service-services.index')->with('success', trans('adminpanel::adminpanel.created'));
 	}
 
 	/**
@@ -61,7 +72,10 @@ class ServicesController extends Controller {
 	 * @return Response
 	 */
 	public function edit($id) {
-		return view('service::edit');
+		$service = $this->serviceRepository->find($id);
+		$title = trans('adminpanel::adminpanel.edit');
+
+		return view('service::services.edit', compact('service', 'title'));
 	}
 
 	/**
@@ -70,8 +84,19 @@ class ServicesController extends Controller {
 	 * @param int $id
 	 * @return Response
 	 */
-	public function update(Request $request, $id) {
-		//
+	public function update(ServiceUpdateFormRequest $request, $id) {
+		$data = $request->validated();
+
+		$service = $this->serviceRepository->find($id);
+
+		$data['image'] = $this->deleteAndStoreNewFile($service->image, 'image', 'services/services');
+
+		$data = array_filter($data);
+
+		$this->serviceRepository->update($id, $data);
+
+		return redirect()->route('service-services.index')->with('success', trans('adminpanel::adminpanel.updated'));
+
 	}
 
 	/**
@@ -80,6 +105,11 @@ class ServicesController extends Controller {
 	 * @return Response
 	 */
 	public function destroy($id) {
-		//
+		$service = $this->serviceRepository->findOrFail($id);
+
+		$this->serviceRepository->delete($service);
+		$this->deleteFile($service->image);
+		return back()->with('success', trans('adminpanel::adminpanel.deleted'));
+
 	}
 }

@@ -67,14 +67,14 @@ class ServiceDatatable extends DataTable {
 				'title' => trans('service::service.id'),
 			],
 			[
-				'name' => 'full_name',
-				'data' => 'full_name',
-				'title' => trans('service::service.full_name'),
+				'name' => 'title',
+				'data' => 'title',
+				'title' => trans('service::service.title'),
 			],
 			[
-				'name' => 'email',
-				'data' => 'email',
-				'title' => trans('service::service.email'),
+				'name' => 'desc',
+				'data' => 'desc',
+				'title' => trans('service::service.desc'),
 			],
 			[
 				'name' => 'image',

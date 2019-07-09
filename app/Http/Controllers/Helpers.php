@@ -1,7 +1,7 @@
 <?php
 
-include __DIR__ .'/../../../Modules/AdminPanel/Helpers/functions.php';
-
+include __DIR__ . '/../../../Modules/AdminPanel/Helpers/functions.php';
+include __DIR__ . '/../../../Modules/Service/Helpers/functions.php';
 
 if (!function_exists('offer_price')) {
 
@@ -40,7 +40,7 @@ if (!function_exists('app_name')) {
 
 	function app_name() {
 
-	    return 'App Name';
+		return 'App Name';
 
 	}
 }
