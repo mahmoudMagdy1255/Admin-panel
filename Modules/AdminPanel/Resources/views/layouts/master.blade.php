@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html dir="{{ App()->getLocale() == 'ar' ? 'rtl' : 'ltr' }}">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">

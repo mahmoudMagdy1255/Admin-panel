@@ -171,9 +171,38 @@ if (!function_exists('quick_sort')) {
 if (!function_exists('active')) {
 	function active($url) {
 
-		if (\Request::segment(1) == $url) {
+		if (\Request::segment(3) == $url) {
+
 			return 'active';
 		}
 
 	}
+}
+if (!function_exists('yajra_lang')){
+    function yajra_lang(){
+        return [
+            "sProcessing"=> __('admin::admin.download'),
+            "sLengthMenu"=> __('admin::admin.show')." _MENU_".__('admin::admin.records'),
+            "sZeroRecords"=> __('admin::admin.zero_records'),
+            "sEmptyTable"=> __('admin::admin.none_record_table'),
+            "sInfo"=> __('admin::admin.showing')." ".__('admin::admin.records').__('admin::admin.ofthe')." _START_ ".__('admin::admin.of')." _END_ ".__('admin::admin.ofatotalof')." _TOTAL_ ".__('admin::admin.records'),
+            "sInfoEmpty"=> __('admin::admin.zero_records'),
+            "sInfoFiltered"=> "(filtrado de un total de _MAX_ registros)",
+            "sInfoPostFix"=> "",
+            "sSearch"=> __('admin::admin.search'),
+            "sUrl"=> "",
+            "sInfoThousands"=> ",",
+            "sLoadingRecords"=> "Cargando...",
+            "oPaginate"=> [
+                "sFirst"=> __('admin::admin.first'),
+                "sLast"=> __('admin::admin.last'),
+                "sNext"=> __('admin::admin.next'),
+                "sPrevious"=> __('admin::admin.previous'),
+            ],
+            "oAria"=> [
+                "sSortAscending"=> "=> Activar para ordenar la columna de manera ascendente",
+                "sSortDescending"=> "=> Activar para ordenar la columna de manera descendente"
+            ],
+        ];
+    }
 }

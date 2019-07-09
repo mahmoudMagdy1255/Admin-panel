@@ -150,10 +150,11 @@ return [
 		/*
 			         * Package Service Providers...
 		*/
+        Spatie\Permission\PermissionServiceProvider::class,
 
-		/*
-			         * Application Service Providers...
-		*/
+        /*
+                     * Application Service Providers...
+        */
 		App\Providers\AppServiceProvider::class,
 		App\Providers\AuthServiceProvider::class,
 		\Intervention\Image\ImageServiceProvider::class,

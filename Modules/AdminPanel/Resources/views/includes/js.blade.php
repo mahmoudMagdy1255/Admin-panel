@@ -57,3 +57,17 @@
 
 
 @stack('js')
+
+<script>
+    $('.check_all').click(function(){
+        $('.check_this').not(this).prop('checked', this.checked);
+    });// end of twxr
+    $('.delBtn').on('click',function () {
+        $('#multipleDelete').modal('show');
+        return false;
+    });
+    $('.del_all').on('click',function () {
+        $('#form_data').submit();
+    });
+
+</script>

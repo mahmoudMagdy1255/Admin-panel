@@ -5,6 +5,7 @@ namespace Modules\Admin\Http\Controllers;
 use App\DataTables\AdminDatatable;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use Illuminate\Http\Request;
 use Modules\Admin\Http\Requests\AdminStoreFormRequest;
 use Modules\Admin\Http\Requests\AdminUpdateFormRequest;
 use Modules\Admin\Repositories\AdminRepository;
@@ -110,5 +111,26 @@ class AdminController extends Controller {
 		$this->deleteFile($admin->image);
 
 		return back()->with('success', trans('adminpanel::adminpanel.deleted'));
+	}
+
+    public function delete_all(Request $request)
+    {
+        if (!$request->has('check_this')){
+            return back()->with('warning', trans('adminpanel::adminpanel.choose_first'));
+        }else {
+            if (is_array($request->check_this)) {
+                foreach ($request->check_this as $id) {
+                    $admin = $this->adminRepository->find($id);
+                    $this->adminRepository->destroy($admin->id);
+                    $this->deleteFile($admin->image);
+                    return back()->with('success', trans('adminpanel::adminpanel.deleted'));
+                }
+            }else{
+                $admin = $this->adminRepository->find($request->check_this);
+                $this->adminRepository->destroy($admin->id);
+                $this->deleteFile($admin->image);
+                return back()->with('success', trans('adminpanel::adminpanel.deleted'));
+            }
+        }
 	}
 }
