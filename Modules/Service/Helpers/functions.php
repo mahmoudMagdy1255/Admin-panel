@@ -1,9 +1,9 @@
 <?php
 
-$serviceCategoryRespository = resolve('Modules\Service\Repositories\ServiceCategoryRepository');
-
 if (!function_exists('load_services_categories')) {
 	function load_services_categories() {
+
+		$serviceCategoryRespository = resolve('Modules\Service\Repositories\ServiceCategoryRepository');
 
 		$categories = $serviceCategoryRespository->all();
 
@@ -19,13 +19,13 @@ if (!function_exists('load_services_categories')) {
 
 			$cat_array['id'] = $category->id;
 			$cat_array['text'] = $category->title;
-			$cat_array['text'] = $category->parent_id ?: '#';
+			$cat_array['parent'] = $category->parent_id ?: '#';
 
 			array_push($cats_array, $cat_array);
 
 		}
 
-		return $cats_array;
+		return json_encode($cats_array, JSON_UNESCAPED_UNICODE);
 
 	}
 }

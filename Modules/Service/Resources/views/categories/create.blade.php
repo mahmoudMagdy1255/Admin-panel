@@ -3,6 +3,7 @@
 @section('content')
 
 @push('css')
+  <link rel="stylesheet" href="{{ admin_design('/jstree/themes/default/style.css') }}">
 
   <link rel="stylesheet" href="{{ admin_design('plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css') }}">
 
@@ -22,24 +23,43 @@
 <script>
   $(function () {
     @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
-    CKEDITOR.replace('{{ $localeCode .'[desc]' }}')
-    $('.textarea').wysihtml5()
+      CKEDITOR.replace('{{ $localeCode .'[desc]' }}')
+      $('.textarea').wysihtml5();
 
     @endforeach
 
-  $('#jstree').jstree({
+   $('#jstree').jstree({
 
     "core" : {
-    "themes" : {
-      "variant" : "large"
-    }
+      "data":{!! load_services_categories() !!},
+      "themes" : {
+        "variant" : "large"
+      }
     },
     "checkbox" : {
       "keep_selected_style" : false
     },
-    "plugins" : [ "wholerow", "checkbox" ]
+    "plugins" : [ "wholerow" ]
 
   });
+
+   $('#jstree').on('changed.jstree', function(e , data) {
+
+    var categories = [];
+
+    for (var i = 0 , j = data.selected.length ; i < j; i++) {
+
+      selected_data = data.selected[i];
+
+      categories.push( data.instance.get_node(selected_data).id );
+
+    };
+
+    $('#parent_id').val( categories.join(',') )
+
+   });
+
+
 
  })
 </script>
@@ -94,11 +114,14 @@
 
 
 
+
+
+            <div>
+              {!! Form::hidden('parent_id', old('parent') , ['id' => 'parent_id'] ) !!}
+              {!! Form::label('categories' ,  trans('service::category.categories') ) !!}
+              <div id="jstree"></div>
+
             </div>
-            <!-- /.tab-content -->
-
-
-                    <div id="jstree"></div>
 
                     <div class="form-group">
                       {!! Form::label('image' ,  trans('service::category.image') ) !!}
@@ -111,6 +134,8 @@
 
                     {!! Form::submit( trans('adminpanel::adminpanel.add') , ['class' => 'btn btn-primary'] ) !!}
                     {!! Form::close() !!}
+            </div>
+            <!-- /.tab-content -->
           </div>
           <!-- nav-tabs-custom -->
         </div>

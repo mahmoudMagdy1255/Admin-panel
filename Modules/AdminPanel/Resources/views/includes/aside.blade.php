@@ -30,26 +30,26 @@
 
             <li class=" {{ active('admins') }} treeview">
                 <a href="#">
-                    <i class="fa fa-user-secret"></i> <span>@lang('adminpanel::adminpanel.admins')</span>
+                    <i class="fa fa-user-secret"></i> <span>@lang('admin::admin.admins')</span>
                     <span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i>
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li class="active"><a href="{{ route('admins.index') }}"><i class="fa fa-user-secret"></i> @lang('adminpanel::adminpanel.admins')</a></li>
+                    <li class="active"><a href="{{ route('admins.index') }}"><i class="fa fa-user-secret"></i> @lang('admin::admin.admins')</a></li>
                     <li><a href="{{ route('admins.create') }}"><i class="fa fa-plus"></i> @lang('adminpanel::adminpanel.add')</a></li>
                 </ul>
             </li>
 
             <li class=" {{ active('users') }} treeview">
                 <a href="#">
-                    <i class="fa fa-user"></i> <span>@lang('adminpanel::adminpanel.users')</span>
+                    <i class="fa fa-user"></i> <span>@lang('user::user.users')</span>
                     <span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i>
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li class="active"><a href="{{ route('users.index') }}"><i class="fa fa-user"></i> @lang('adminpanel::adminpanel.users')</a></li>
+                    <li class="active"><a href="{{ route('users.index') }}"><i class="fa fa-user"></i> @lang('user::user.users')</a></li>
                     <li><a href="{{ route('users.create') }}"><i class="fa fa-plus"></i> @lang('adminpanel::adminpanel.add')</a></li>
                 </ul>
             </li>
