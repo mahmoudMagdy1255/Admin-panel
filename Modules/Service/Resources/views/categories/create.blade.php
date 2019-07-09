@@ -27,11 +27,12 @@
       $('.textarea').wysihtml5();
 
     @endforeach
+    CKEDITOR.config.language = "{{ app()->getLocale() }}";
 
    $('#jstree').jstree({
 
     "core" : {
-      "data":{!! load_services_categories() !!},
+      "data":{!! load_services_categories(old('parent_id')) !!},
       "themes" : {
         "variant" : "large"
       }
@@ -117,7 +118,7 @@
 
 
             <div>
-              {!! Form::hidden('parent_id', old('parent') , ['id' => 'parent_id'] ) !!}
+              {!! Form::hidden('parent_id', old('parent_id') , ['id' => 'parent_id'] ) !!}
               {!! Form::label('categories' ,  trans('service::category.categories') ) !!}
               <div id="jstree"></div>
 

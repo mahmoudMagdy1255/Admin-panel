@@ -3,6 +3,7 @@
 @section('content')
 
 @push('css')
+  <link rel="stylesheet" href="{{ admin_design('/jstree/themes/default/style.css') }}">
 
   <link rel="stylesheet" href="{{ admin_design('plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css') }}">
 
@@ -17,6 +18,7 @@
 
 <script src="{{ admin_design('jstree/jstree.js') }}"></script>
 <script src="{{ admin_design('jstree/jstree.checkbox.js') }}"></script>
+
 <script src="{{ admin_design('jstree/jstree.wholerow.js') }}"></script>
 
 <script>
@@ -27,21 +29,40 @@
 
     @endforeach
 
+    CKEDITOR.config.language = "{{ app()->getLocale() }}";
+
   $('#jstree').jstree({
 
-    "core" : {
-    "themes" : {
-      "variant" : "large"
-    }
-    },
-    "checkbox" : {
-      "keep_selected_style" : false
-    },
-    "plugins" : [ "wholerow", "checkbox" ]
+      "core" : {
+        'data' : {!! load_services_categories( $category->parent_id , $category->id ) !!},
+        "themes" : {
+          "variant" : "large"
+        }
+      },
+      "checkbox" : {
+        "keep_selected_style" : false
+      },
+      "plugins" : [ "wholerow"]
+    });
 
   });
 
- })
+  $('#jstree').on('changed.jstree', function(e , data) {
+
+    var categories = [];
+
+    for (var i = 0 , j = data.selected.length ; i < j; i++) {
+
+      selected_data = data.selected[i];
+
+      categories.push( data.instance.get_node(selected_data).id );
+
+    };
+
+    $('#parent_id').val( categories.join(',') )
+
+   });
+
 </script>
 
 @endpush
@@ -97,6 +118,7 @@
             </div>
             <!-- /.tab-content -->
 
+                    <input type="hidden" name="parent_id" id="parent_id" value="{{ old('parent_id') }}">
 
                     <div id="jstree"></div>
 

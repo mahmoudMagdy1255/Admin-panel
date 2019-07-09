@@ -11,4 +11,8 @@ class Service extends Model {
 		return $this->belongsTo(ServiceCategory::class);
 	}
 
+	public function getImageAttribute($image) {
+		return 'public/upload/services/services/' . $image;
+	}
+
 }

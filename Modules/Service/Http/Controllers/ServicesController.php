@@ -54,7 +54,7 @@ class servicesController extends Controller {
 
 		$this->serviceRepository->create($data);
 
-		return redirect()->route('service-services.index')->with('success', trans('adminpanel::adminpanel.created'));
+		return redirect()->route('services.index')->with('success', trans('adminpanel::adminpanel.created'));
 	}
 
 	/**
@@ -95,7 +95,7 @@ class servicesController extends Controller {
 
 		$this->serviceRepository->update($id, $data);
 
-		return redirect()->route('service-services.index')->with('success', trans('adminpanel::adminpanel.updated'));
+		return redirect()->route('services.index')->with('success', trans('adminpanel::adminpanel.updated'));
 
 	}
 
@@ -106,8 +106,7 @@ class servicesController extends Controller {
 	 */
 	public function destroy($id) {
 		$service = $this->serviceRepository->findOrFail($id);
-
-		$this->serviceRepository->delete($service);
+		$this->serviceRepository->destroy($id);
 		$this->deleteFile($service->image);
 		return back()->with('success', trans('adminpanel::adminpanel.deleted'));
 

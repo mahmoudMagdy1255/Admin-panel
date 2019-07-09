@@ -106,10 +106,26 @@ class CategoriesController extends Controller {
 	 */
 	public function destroy($id) {
 		$category = $this->serviceCategoryRepository->findOrFail($id);
-
+		$this->destroySubCategories($id);
 		$this->serviceCategoryRepository->delete($category);
 		$this->deleteFile($category->image);
 		return back()->with('success', trans('adminpanel::adminpanel.deleted'));
+
+	}
+
+	public function destroySubCategories($id) {
+		$sub_categories = $this->serviceCategoryRepository->where('parent_id', $id)->get();
+
+		foreach ($sub_categories as $sub) {
+
+			$this->destroySubCategories($sub->id);
+			$this->deleteFile($sub->image);
+			$this->serviceCategoryRepository->delete($sub);
+		}
+
+		$category = $this->serviceCategoryRepository->find($id);
+		$this->deleteFile($category->image);
+		$this->serviceCategoryRepository->delete($category);
 
 	}
 }

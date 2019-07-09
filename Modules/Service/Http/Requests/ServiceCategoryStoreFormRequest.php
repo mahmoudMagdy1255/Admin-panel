@@ -19,9 +19,9 @@ class ServiceCategoryStoreFormRequest extends FormRequest {
 
 			$rules += [$lang . '.*' => 'required'];
 
-			$rules += [$lang . '.title' => Rule::unique('service_category_translations', 'title')];
+			$rules += [$lang . '.title' => ['required', Rule::unique('service_category_translations', 'title')]];
 
-			$rules += [$lang . '.desc' => Rule::unique('service_category_translations', 'desc')];
+			$rules += [$lang . '.desc' => ['required', Rule::unique('service_category_translations', 'desc')]];
 		endforeach;
 
 		$array = [

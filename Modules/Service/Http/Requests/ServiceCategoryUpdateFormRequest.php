@@ -19,9 +19,9 @@ class ServiceCategoryUpdateFormRequest extends FormRequest {
 
 			$rules += [$lang . '.*' => 'required'];
 
-			$rules += [$lang . '.title' => Rule::unique('service_category_translations', 'title')->ignore(request('id'), 'service_category_id')];
+			$rules += [$lang . '.title' => ['required', Rule::unique('service_category_translations', 'title')->ignore(request('id'), 'service_category_id')]];
 
-			$rules += [$lang . '.desc' => Rule::unique('service_category_translations', 'desc')->ignore(request('id'), 'service_category_id')];
+			$rules += [$lang . '.desc' => ['required', Rule::unique('service_category_translations', 'desc')->ignore(request('id'), 'service_category_id')]];
 		endforeach;
 
 		$array = [
