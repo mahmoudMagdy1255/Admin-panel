@@ -15,5 +15,7 @@ class ServiceCategory extends Model {
 
 	protected $translatedAttributes = ['title', 'desc'];
 
+	protected $translationModel = ServiceCategoryTranslation::class;
+
 	protected $fillable = ['image', 'parent_id'];
 }

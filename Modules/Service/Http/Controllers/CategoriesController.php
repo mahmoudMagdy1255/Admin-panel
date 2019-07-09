@@ -6,7 +6,8 @@ use App\DataTables\ServiceCategoryDatatable;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Modules\Common\Services\LocalFiles;
-use Modules\Service\Http\Requests\ServiceStoreFormRequest;
+use Modules\Service\Http\Requests\ServiceCategoryStoreFormRequest;
+use Modules\Service\Http\Requests\ServiceCategoryUpdateFormRequest;
 use Modules\Service\Repositories\ServiceCategoryRepository;
 
 class CategoriesController extends Controller {
@@ -45,10 +46,10 @@ class CategoriesController extends Controller {
 	 * @param Request $request
 	 * @return Response
 	 */
-	public function store(ServiceStoreFormRequest $request) {
+	public function store(ServiceCategoryStoreFormRequest $request) {
 		$data = $request->validated();
 
-		$data['image'] = $this->storeFile('image', 'admins');
+		$data['image'] = $this->storeFile('image', 'services/categories');
 		$data = array_filter($data);
 
 		$this->serviceCategoryRepository->create($data);
@@ -83,8 +84,19 @@ class CategoriesController extends Controller {
 	 * @param int $id
 	 * @return Response
 	 */
-	public function update(Request $request, $id) {
-		//
+	public function update(ServiceCategoryUpdateFormRequest $request, $id) {
+		$data = $request->validated();
+
+		$category = $this->serviceCategoryRepository->find($id);
+
+		$data['image'] = $this->deleteAndStoreNewFile($category->image, 'image', 'services/categories');
+
+		$data = array_filter($data);
+
+		$this->serviceCategoryRepository->update($id, $data);
+
+		return redirect()->route('service-categories.index')->with('success', trans('adminpanel::adminpanel.updated'));
+
 	}
 
 	/**
@@ -93,6 +105,10 @@ class CategoriesController extends Controller {
 	 * @return Response
 	 */
 	public function destroy($id) {
-		//
+		$category = $this->serviceCategoryRepository->find($id);
+		$this->serviceCategoryRepository->destroy($category->id);
+		$this->deleteFile($category->image);
+		return back()->with('success', trans('adminpanel::adminpanel.deleted'));
+
 	}
 }

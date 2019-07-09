@@ -21,9 +21,11 @@
 
 <script>
   $(function () {
-    CKEDITOR.replace('desc')
+    @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+    CKEDITOR.replace('{{ $localeCode .'[desc]' }}')
     $('.textarea').wysihtml5()
-  })
+
+    @endforeach
 
   $('#jstree').jstree({
 
@@ -39,7 +41,7 @@
 
   });
 
-
+ })
 </script>
 
 @endpush
@@ -74,12 +76,12 @@
 
                     <div class="form-group">
                       {!! Form::label('title' ,  trans('service::category.title')  . ' ( ' . $properties['native'] . ' ) ' ) !!}
-                      {!! Form::text( 'title' , old('title') , ['class' => 'form-control'] ) !!}
+                      {!! Form::text( $localeCode.'[title]' , old('title') , ['class' => 'form-control'] ) !!}
                     </div>
 
                     <div class="form-group">
                       {!! Form::label('desc' ,  trans('service::category.desc') . ' ( ' . $properties['native'] . ' ) ' ) !!}
-                      {!! Form::textarea('desc' , old('desc') , ['id' => 'desc' , 'class' => 'form-control'] ) !!}
+                      {!! Form::textarea($localeCode .'[desc]' , old('desc') , ['id' => 'desc' , 'class' => 'form-control'] ) !!}
                     </div>
 
                   </div>
@@ -107,7 +109,7 @@
                       <img id="blah" width="100px" height="100px" class="img-thumbnail" src="{{ url('public/upload/services/categories/default.png') }}" alt="your image" />
                     </div>
 
-                    {!! Form::submit( trans('adminpanel::adminpanel.add_new') , ['class' => 'btn btn-primary'] ) !!}
+                    {!! Form::submit( trans('adminpanel::adminpanel.add') , ['class' => 'btn btn-primary'] ) !!}
                     {!! Form::close() !!}
           </div>
           <!-- nav-tabs-custom -->

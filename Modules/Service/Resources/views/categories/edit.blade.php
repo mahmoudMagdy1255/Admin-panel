@@ -21,9 +21,11 @@
 
 <script>
   $(function () {
-    CKEDITOR.replace('desc')
+    @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+    CKEDITOR.replace('{{ $localeCode .'[desc]' }}')
     $('.textarea').wysihtml5()
-  })
+
+    @endforeach
 
   $('#jstree').jstree({
 
@@ -39,45 +41,83 @@
 
   });
 
-
+ })
 </script>
 
 @endpush
 
-	<div class="box">
-            <div class="box-header">
-              <h3 class="box-title">{{ $title }}</h3>
+
+<div class="row">
+        <div class="col-md-12">
+          <!-- Custom Tabs -->
+          <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs">
+              @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+                <li class="{{ $loop->first ? 'active' : '' }}">
+                  <a  class="btn btn-warning" href="#tab_{{ $localeCode }}" data-toggle="tab">
+                    {{ $properties['native'] }}
+                  </a>
+                </li>
+              @endforeach
+            </ul>
+
+            <div class="tab-content">
+              @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+              <div class="tab-pane {{ $loop->first ? 'active' : '' }}" id="tab_{{ $localeCode }}">
+
+                <div class="box">
+                  <div class="box-header">
+                    <h3 class="box-title">{{ $title }}</h3>
+                  </div>
+                  <!-- /.box-header -->
+                  <div class="box-body">
+                    {!! Form::open(['method' => 'PUT' , 'route' => ['service-categories.update' , $category->id] , 'files' => true]) !!}
+
+                    {!! Form::hidden('id', $category->id) !!}
+                    <div class="form-group">
+                      {!! Form::label('title' ,  trans('service::category.title')  . ' ( ' . $properties['native'] . ' ) ' ) !!}
+                      {!! Form::text( $localeCode.'[title]' , $category->translate($localeCode)->title , ['class' => 'form-control'] ) !!}
+                    </div>
+
+                    <div class="form-group">
+                      {!! Form::label('desc' ,  trans('service::category.desc') . ' ( ' . $properties['native'] . ' ) ' ) !!}
+                      {!! Form::textarea($localeCode .'[desc]' , $category->translate($localeCode)->desc , ['id' => 'desc' , 'class' => 'form-control'] ) !!}
+                    </div>
+
+                  </div>
+                  <!-- /.box-body -->
+                </div>
+
+              </div>
+             @endforeach
+
+
+
+
             </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              {!! Form::open(['route' => ['admins.update' , $category->id]  , 'files' => true, 'method' => 'PUT']) !!}
-              <div class="form-group">
-                {!! Form::label('full_name' ,  trans('service::category.title')) !!}
-                {!! Form::text('full_name' , $category->title , ['class' => 'form-control'] ) !!}
-              </div>
+            <!-- /.tab-content -->
 
-                {!! Form::hidden('id' ,  $category->id ) !!}
 
-              <div class="form-group">
-                {!! Form::label('desc' ,  trans('service::category.desc') ) !!}
-                {!! Form::textarea('desc' , $category->desc , ['id' => 'desc' , 'class' => 'form-control'] ) !!}
-              </div>
+                    <div id="jstree"></div>
 
-              <div class="form-group">
-                {!! Form::label('image' ,  trans('service::category.image') ) !!}
-                {!! Form::file('image' , ['id' => 'image' , 'class' => 'form-control'] ) !!}
-              </div>
+                    <div class="form-group">
+                      {!! Form::label('image' ,  trans('service::category.image') ) !!}
+                      {!! Form::file('image' , ['id' => 'image' , 'class' => 'form-control'] ) !!}
+                    </div>
 
-              <div class="form-group">
-                <img id="blah" width="100px" height="100px" class="img-thumbnail" src="{{ asset($category->image) }}" alt="your image" />
-              </div>
+                    <div class="form-group">
+                      <img id="blah" width="100px" height="100px" class="img-thumbnail" src="{{ url($category->image) }}" alt="your image" />
+                    </div>
+
+                    {!! Form::submit( trans('adminpanel::adminpanel.edit') , ['class' => 'btn btn-primary'] ) !!}
+                    {!! Form::close() !!}
+          </div>
+          <!-- nav-tabs-custom -->
+        </div>
+
+      </div>
 
 
 
-              {!! Form::submit( trans('adminpanel::adminpanel.edit') , ['class' => 'btn btn-primary'] ) !!}
-              {!! Form::close() !!}
-            </div>
-            <!-- /.box-body -->
-    </div>
 
-@stop
+@endsection
