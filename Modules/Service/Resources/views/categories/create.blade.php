@@ -51,7 +51,7 @@
           <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
               @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
-                <li class="active">
+                <li class="{{ $loop->first ? 'active' : '' }}">
                   <a  class="btn btn-warning" href="#tab_{{ $localeCode }}" data-toggle="tab">
                     {{ $properties['native'] }}
                   </a>
@@ -73,12 +73,12 @@
 
 
                     <div class="form-group">
-                      {!! Form::label('title' ,  trans('service::category.title')) !!}
+                      {!! Form::label('title' ,  trans('service::category.title')  . ' ( ' . $properties['native'] . ' ) ' ) !!}
                       {!! Form::text( 'title' , old('title') , ['class' => 'form-control'] ) !!}
                     </div>
 
                     <div class="form-group">
-                      {!! Form::label('desc' ,  trans('service::category.desc') ) !!}
+                      {!! Form::label('desc' ,  trans('service::category.desc') . ' ( ' . $properties['native'] . ' ) ' ) !!}
                       {!! Form::textarea('desc' , old('desc') , ['id' => 'desc' , 'class' => 'form-control'] ) !!}
                     </div>
 
@@ -99,7 +99,7 @@
                     <div id="jstree"></div>
 
                     <div class="form-group">
-                      {!! Form::label('image' ,  trans('user::user.image') ) !!}
+                      {!! Form::label('image' ,  trans('service::category.image') ) !!}
                       {!! Form::file('image' , ['id' => 'image' , 'class' => 'form-control'] ) !!}
                     </div>
 

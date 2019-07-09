@@ -6,13 +6,13 @@ return [
 	'add_new' => 'اضف داتا جديدة',
 	'control' => 'التحكم',
 	'all' => 'الكل',
-	'delete_this' => 'Do You Want To Delete This :type ( :name )',
+	'delete_this' => 'هل تريد حذف هذا  :type ( :name )',
 	'delete' => 'ح1ف',
 	'close' => 'غلق',
 	'yes' => 'نعم',
-	'deleted' => 'Data Deleted Successfully',
-	'created' => 'Data Crreated Successfully',
-	'updated' => 'Data Updated Successfully',
+	'deleted' => 'تم حذف الداتا بنجاح',
+	'created' => 'تم ادخال الداتا بنجاح',
+	'updated' => 'تم تحديث الداتا بنجاح',
 	'edit' => 'تعديل',
 
 ];
