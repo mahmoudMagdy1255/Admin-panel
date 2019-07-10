@@ -65,22 +65,22 @@ class TripCategoryDatatable extends DataTable {
 			[
 				'name' => 'id',
 				'data' => 'id',
-				'title' => trans('service::category.id'),
+				'title' => trans('trip::category.id'),
 			],
 			[
 				'name' => 'title',
 				'data' => 'title',
-				'title' => trans('service::category.title'),
+				'title' => trans('trip::category.title'),
 			],
 			[
 				'name' => 'desc',
 				'data' => 'desc',
-				'title' => trans('service::category.desc'),
+				'title' => trans('trip::category.desc'),
 			],
 			[
 				'name' => 'image',
 				'data' => 'image',
-				'title' => trans('service::category.image'),
+				'title' => trans('trip::category.image'),
 				'printable' => false,
 				'searchable' => false,
 				'orderable' => false,

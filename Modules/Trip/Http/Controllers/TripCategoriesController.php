@@ -90,10 +90,7 @@ class TripCategoriesController extends Controller {
 	 */
 	public function destroy($id) {
 
-		$category = $this->tripCategoryRepository->findOrFail($id);
 		$this->destroySubCategories($id);
-		$this->tripCategoryRepository->delete($category);
-		$this->deleteFile($category->image);
 		return back()->with('success', trans('adminpanel::adminpanel.deleted'));
 
 	}
@@ -105,12 +102,12 @@ class TripCategoriesController extends Controller {
 
 			$this->destroySubCategories($sub->id);
 			$this->deleteFile($sub->image);
-			$this->tripCategoryRepository->delete($sub);
+			$this->tripCategoryRepository->destroy($sub->id);
 		}
 
 		$category = $this->tripCategoryRepository->find($id);
 		$this->deleteFile($category->image);
-		$this->tripCategoryRepository->delete($category);
+		$this->tripCategoryRepository->destroy($category->id);
 
 	}
 

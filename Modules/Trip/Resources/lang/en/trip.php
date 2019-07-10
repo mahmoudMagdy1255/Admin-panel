@@ -14,4 +14,8 @@ return array(
 	'price' => 'Price',
 	'day' => 'Day',
 	'days' => 'Days',
+	'id' => 'ID',
+	'title' => 'Title',
+	'desc' => 'Description',
+	'image' => 'Image',
 );

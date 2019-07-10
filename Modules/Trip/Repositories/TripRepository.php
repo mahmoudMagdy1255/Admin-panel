@@ -1,10 +1,10 @@
 <?php
 
-namespace Modules\TripModule\Repository;
+namespace Modules\Trip\Repositories;
 
 use File;
-use Modules\TripModule\Entities\Destination;
-use Modules\TripModule\Entities\Trip;
+use Modules\Trip\Entities\Destination;
+use Modules\Trip\Entities\Trip;
 
 class TripRepository {
 	private $tripPhotos;

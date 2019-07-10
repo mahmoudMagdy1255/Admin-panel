@@ -13,7 +13,7 @@ class CreateDestinationsTable extends Migration {
 	public function up() {
 		Schema::create('destinations', function (Blueprint $table) {
 			$table->increments('id');
-			$table->string('image')->nullable();
+			$table->string('image');
 			$table->integer('parent_id')->unsigned()->nullable();
 			$table->foreign('parent_id')->references('id')->on('destinations')->onDelete('cascade');
 

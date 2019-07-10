@@ -92,6 +92,13 @@
                         </a>
                     </li>
 
+
+                    <li class="active">
+                        <a href="{{ route('destinations.index') }}"><i class="fa fa-users"></i>
+                            @lang('trip::destination.destinations')
+                        </a>
+                    </li>
+
                     <li class="active">
                         <a href="{{ route('trips.index') }}"><i class="fa fa-users"></i>
                             @lang('trip::trip.trips')

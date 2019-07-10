@@ -3,15 +3,18 @@
 return [
 	# Category
 
-	'desc' => 'Description',
-	'cover' => 'Cover Photo',
-	'tags' => 'Tags',
-	'parent' => 'Parent Category',
+	'desc' => 'الوصف',
+	'cover' => 'صورة الغلاف الخاصة بالجهة',
+	'tags' => 'العلامات',
 
-	'short_desc' => 'Short Description',
-	'album' => 'Photo Album',
-	'category' => 'Choose Category',
+	'short_desc' => 'وصف قصير',
+	'album' => 'ألبوم الصور',
+	'category' => 'اختار القسم',
 
-	'destination' => 'Destination',
-	'destinations' => 'Destinations',
+	'destination' => 'الجهة',
+	'destinations' => 'الجهات',
+
+	'id' => 'الاى دى',
+	'title' => 'العنوان',
+	'image' => 'صورة الجهة',
 ];

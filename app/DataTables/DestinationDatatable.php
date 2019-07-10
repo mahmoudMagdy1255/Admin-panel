@@ -2,11 +2,11 @@
 
 namespace App\DataTables;
 
-use Modules\Service\Repositories\ServiceRepository;
+use Modules\Trip\Repositories\DestinationRepository;
 use URL;
 use Yajra\DataTables\Services\DataTable;
 
-class TripDatatable extends DataTable {
+class DestinationDatatable extends DataTable {
 	/**
 	 * Build DataTable class.
 	 *
@@ -15,9 +15,9 @@ class TripDatatable extends DataTable {
 	 */
 	public function dataTable($query) {
 		return datatables($query)
-			->addColumn('control', 'trip::trips.datatables.control')
-			->addColumn('short_desc', 'trip::trips.datatables.short_desc')
-			->addColumn('image', 'trip::trips.datatables.image')
+			->addColumn('control', 'trip::destinations.datatables.control')
+			->addColumn('short_desc', 'trip::destinations.datatables.short_desc')
+			->addColumn('image', 'trip::destinations.datatables.image')
 			->rawColumns(['control', 'image', 'short_desc']);
 	}
 
@@ -27,7 +27,7 @@ class TripDatatable extends DataTable {
 	 * @param \App\User $model
 	 * @return \Illuminate\Database\Eloquent\Builder
 	 */
-	public function query(ServiceRepository $serviceRepository) {
+	public function query(DestinationRepository $serviceRepository) {
 		return $serviceRepository->query();
 	}
 
@@ -65,27 +65,22 @@ class TripDatatable extends DataTable {
 			[
 				'name' => 'id',
 				'data' => 'id',
-				'title' => trans('trip::trip.id'),
+				'title' => trans('trip::destination.id'),
 			],
 			[
 				'name' => 'title',
 				'data' => 'title',
-				'title' => trans('trip::trip.title'),
+				'title' => trans('trip::destination.title'),
 			],
 			[
 				'name' => 'short_desc',
 				'data' => 'short_desc',
-				'title' => trans('trip::trip.short_desc'),
-			],
-			[
-				'name' => 'price',
-				'data' => 'price',
-				'title' => trans('trip::trip.price'),
+				'title' => trans('trip::destination.short_desc'),
 			],
 			[
 				'name' => 'image',
 				'data' => 'image',
-				'title' => trans('trip::trip.image'),
+				'title' => trans('trip::destination.image'),
 				'printable' => false,
 				'searchable' => false,
 				'orderable' => false,

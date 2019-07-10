@@ -1,38 +1,37 @@
 <?php
 
-namespace Modules\TripModule\Http\Controllers;
+namespace Modules\Trip\Http\Controllers;
 
+use App\DataTables\TripDatatable;
 use File;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
-use Modules\CommonModule\Helper\UploaderHelper;
-use Modules\TripModule\Repository\DestinationRepository;
-use Modules\TripModule\Repository\TripCategoryRepository;
-use Modules\TripModule\Repository\TripPhotosRepository;
-use Modules\TripModule\Repository\TripRepository;
+use Modules\Common\Services\LocalFiles;
+use Modules\Trip\Repositories\DestinationRepository;
+use Modules\Trip\Repositories\TripCategoryRepository;
+use Modules\Trip\Repositories\TripPhotosRepository;
+use Modules\Trip\Repositories\TripRepository;
 use Yajra\DataTables\Facades\DataTables;
 
 class TripsController extends Controller {
-	use UploaderHelper;
+	use LocalFiles;
 
-	private $tripRepo, $categRepo, $tripPicRepo, $destinationRepo;
-
-	public function __construct(DestinationRepository $destinationRepo, TripRepository $tripRepo, TripPhotosRepository $tripPicRepo, TripCategoryRepository $categRepo) {
-		$this->tripRepo = $tripRepo;
-		$this->categRepo = $categRepo;
-		$this->tripPicRepo = $tripPicRepo;
-		$this->destinationRepo = $destinationRepo;
+	public function __construct(DestinationRepository $destinationRepository, TripRepository $tripRepository, TripPhotosRepository $tripPicRepository, TripCategoryRepository $tripCategRepository) {
+		$this->tripRepository = $tripRepository;
+		$this->tripCategRepository = $tripCategRepository;
+		$this->tripPicRepository = $tripPicRepository;
+		$this->destinationRepository = $destinationRepository;
 	}
 
 	/**
 	 * Display a listing of the resource.
 	 * @return Response
 	 */
-	public function index() {
-		$trips = $this->tripRepo->findAll();
+	public function index(TripDatatable $tripDatatable) {
 
-		return view('tripmodule::Trip.index', ['trips' => $trips]);
+		$title = trans('trip::trip.trips');
+		return $tripDatatable->render('trip::trips.index', compact('title'));
 	}
 
 	/**
@@ -40,10 +39,11 @@ class TripsController extends Controller {
 	 * @return Response
 	 */
 	public function create() {
-		$categs = $this->categRepo->findAll();
-		$destinations = $this->destinationRepo->findAll();
+		$title = trans('adminpanel::adminpanel.add_new');
+		$categories = $this->tripCategRepository->all();
+		$destinations = $this->destinationRepository->all();
 
-		return view('tripmodule::Trip.create', ['categs' => $categs, 'destinations' => $destinations]); //, 'trip' => $trip
+		return view('trip::trips.create', compact('title', 'categories', 'destinations'));
 	}
 
 	/**
@@ -56,7 +56,7 @@ class TripsController extends Controller {
 	public function show($id) {
 		$trip = $this->tripRepo->find($id);
 
-		return view('tripmodule::Trip.show', ['trip' => $trip]);
+		return view('trip::Trip.show', ['trip' => $trip]);
 	}
 
 	/**
@@ -99,7 +99,7 @@ class TripsController extends Controller {
 		$trip = $this->tripRepo->find($id);
 
 		$categories = $this->categRepo->findAll();
-		$destinations = $this->destinationRepo->findAll();
+		$destinations = $this->destinationRepository->findAll();
 
 		if (isset($trip->destinations)) {
 			foreach ($trip->destinations as $value) {
@@ -107,7 +107,7 @@ class TripsController extends Controller {
 			}
 		}
 
-		return view('tripmodule::Trip.edit', [
+		return view('trip::Trip.edit', [
 			'trip' => $trip,
 			'categs' => $categories,
 			'selected_categ_ids' => $selected_categ_ids,

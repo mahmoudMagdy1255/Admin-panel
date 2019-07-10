@@ -1,31 +1,33 @@
 <?php
 
-namespace Modules\TripModule\Http\Controllers;
+namespace Modules\Trip\Http\Controllers;
 
-use File;
+use App\DataTables\DestinationDatatable;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
-use Modules\CommonModule\Helper\UploaderHelper;
-use Modules\TripModule\Repository\DestinationRepository;
+use Modules\Common\Services\LocalFiles;
+use Modules\Trip\Http\Requests\DestinationStoreFormRequest;
+use Modules\Trip\Http\Requests\DestinationUpdateFormRequest;
+use Modules\Trip\Repositories\DestinationRepository;
 
 class DestinationController extends Controller {
-	use UploaderHelper;
+	use LocalFiles;
 
-	private $destinationRepo;
+	private $destinationRepository;
 
-	public function __construct(DestinationRepository $destinationRepo) {
-		$this->destinationRepo = $destinationRepo;
+	public function __construct(DestinationRepository $destinationRepository) {
+		$this->destinationRepository = $destinationRepository;
 	}
 
 	/**
 	 * Display a listing of the resource.
 	 * @return Response
 	 */
-	public function index() {
-		$destinations = $this->destinationRepo->findAll();
+	public function index(DestinationDatatable $destinationDatatable) {
 
-		return view('tripmodule::destination.index', ['destinations' => $destinations]);
+		$title = trans('trip::destination.destinations');
+		return $destinationDatatable->render('trip::destinations.index', compact('title'));
 	}
 
 	/**
@@ -33,9 +35,8 @@ class DestinationController extends Controller {
 	 * @return Response
 	 */
 	public function create() {
-		$destinations = $this->destinationRepo->findAll();
-
-		return view('tripmodule::destination.create', ['destinations' => $destinations]);
+		$title = trans('adminpanel::adminpanel.add_new');
+		return view('trip::destinations.create', compact('title'));
 	}
 
 	/**
@@ -43,18 +44,15 @@ class DestinationController extends Controller {
 	 * @param Request $request
 	 * @return Response
 	 */
-	public function store(Request $request) {
-		$data = $request->except('_token');
+	public function store(DestinationStoreFormRequest $request) {
+		$data = $request->validated();
 
-		if ($request->hasFile('photo')) {
-			$image = $request->file('photo');
-			$imageName = $this->uploadWithResize($image, 'destination', 800, 960);
-			$data['photo'] = $imageName;
-		}
+		$data['image'] = $this->storeFile('image', 'trips/destinations');
+		$data = array_filter($data);
 
-		$this->destinationRepo->save($data);
+		$this->destinationRepository->create($data);
 
-		return redirect('/admin-panel/destination')->with('success', 'success');
+		return redirect()->route('destinations.index')->with('success', trans('adminpanel::adminpanel.created'));
 	}
 
 	/**
@@ -63,10 +61,11 @@ class DestinationController extends Controller {
 	 * @return Response
 	 */
 	public function edit($id) {
-		$destination = $this->destinationRepo->find($id);
-		$destinations = $this->destinationRepo->findAll($id);
 
-		return view('tripmodule::destination.edit', ['destination' => $destination, 'destinations' => $destinations]);
+		$destination = $this->destinationRepository->find($id);
+		$title = trans('adminpanel::adminpanel.edit');
+
+		return view('trip::destinations.edit', compact('destination', 'title'));
 	}
 
 	/**
@@ -75,27 +74,19 @@ class DestinationController extends Controller {
 	 * @param int $id
 	 * @return Response
 	 */
-	public function update(Request $request, $id) {
-		$destinationPic = $this->destinationRepo->find($id);
-		$destinationData = $request->except('_token', '_method', 'photo', 'it', 'fr', 'ru', 'en');
+	public function update(DestinationUpdateFormRequest $request, $id) {
 
-		$activeLangCode = \LanguageHelper::getDynamicLangCode();
-		$destinationTrans = $request->only($activeLangCode);
+		$destination = $this->destinationRepository->find($id);
 
-		if ($request->hasFile('photo')) {
-			// Delete old image first.
-			$thumbnail_path = public_path() . '/images/destination/' . $destinationPic->photo;
-			File::delete([$thumbnail_path]);
+		$data = $request->validated();
 
-			// Save the new one.
-			$image = $request->file('photo');
-			$imageName = $this->uploadWithResize($image, 'destination', 800, 960);
-			$destinationData['photo'] = $imageName;
-		}
+		$data['image'] = $this->deleteAndStoreNewFile($destination->image, 'image', 'trips/destinations');
 
-		$this->destinationRepo->update($id, $destinationData, $destinationTrans);
+		$data = array_filter($data);
 
-		return redirect('admin-panel/destination')->with('updated', 'updated');
+		$this->destinationRepository->update($destination, $data);
+
+		return redirect()->route('destinations.index')->with('success', trans('adminpanel::adminpanel.updated'));
 	}
 
 	/**
@@ -104,9 +95,24 @@ class DestinationController extends Controller {
 	 * @return Response
 	 */
 	public function destroy($id) {
-		$destination = $this->destinationRepo->find($id);
-		$this->destinationRepo->delete($destination);
+		$this->destroySubDestinations($id);
+		return back()->with('success', trans('adminpanel::adminpanel.deleted'));
 
-		return redirect()->back();
+	}
+
+	public function destroySubDestinations($id) {
+		$sub_destinations = $this->destinationRepository->where('parent_id', $id)->get();
+
+		foreach ($sub_destinations as $sub) {
+
+			$this->destroySubdestinations($sub->id);
+			$this->deleteFile($sub->image);
+			$this->destinationRepository->delete($sub);
+		}
+
+		$destination = $this->destinationRepository->find($id);
+		$this->deleteFile($destination->image);
+		$this->destinationRepository->delete($destination);
+
 	}
 }

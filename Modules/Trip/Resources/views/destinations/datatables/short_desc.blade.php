@@ -1,0 +1,1 @@
+<span>{!! substr($desc , 0 , 20) !!}</span>
