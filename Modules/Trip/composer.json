@@ -1,5 +1,5 @@
 {
-    "name": "nwidart/tripmodule",
+    "name": "nwidart/trip",
     "description": "",
     "authors": [
         {
@@ -10,7 +10,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Modules\\TripModule\\Providers\\TripModuleServiceProvider"
+                "Modules\\Trip\\Providers\\TripServiceProvider"
             ],
             "aliases": {
                 
@@ -19,7 +19,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Modules\\TripModule\\": ""
+            "Modules\\Trip\\": ""
         }
     }
 }

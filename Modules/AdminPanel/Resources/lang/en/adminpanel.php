@@ -14,5 +14,8 @@ return [
 	'created' => 'Data Crreated Successfully',
 	'updated' => 'Data Updated Successfully',
 	'edit' => 'Edit',
+	'main_navigation' => 'Main Navigation',
+	'online' => 'Online',
+	'search' => 'Search',
 
 ];

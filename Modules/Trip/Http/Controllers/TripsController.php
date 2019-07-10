@@ -13,7 +13,7 @@ use Modules\TripModule\Repository\TripPhotosRepository;
 use Modules\TripModule\Repository\TripRepository;
 use Yajra\DataTables\Facades\DataTables;
 
-class TripController extends Controller {
+class TripsController extends Controller {
 	use UploaderHelper;
 
 	private $tripRepo, $categRepo, $tripPicRepo, $destinationRepo;

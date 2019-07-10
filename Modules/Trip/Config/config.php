@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'name' => 'TripModule'
+	'name' => 'Trip',
 ];

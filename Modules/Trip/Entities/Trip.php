@@ -1,11 +1,11 @@
 <?php
 
-namespace Modules\TripModule\Entities;
+namespace Modules\Trip\Entities;
 
 use Dimsav\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
-use Modules\TripModule\Entities\TripCategory;
-use Modules\TripModule\Entities\TripPhotos;
+use Modules\Trip\Entities\TripCategory;
+use Modules\Trip\Entities\TripPhotos;
 
 class Trip extends Model {
 	use Translatable;

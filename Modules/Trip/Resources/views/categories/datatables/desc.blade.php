@@ -1,0 +1,1 @@
+<span>{!! $desc !!}</span>

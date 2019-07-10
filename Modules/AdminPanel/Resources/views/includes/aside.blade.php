@@ -77,6 +77,29 @@
                 </ul>
             </li>
 
+            <li class=" {{ active('trips') }} treeview">
+                <a href="#">
+                    <i class="fa fa-users"></i> <span>@lang('trip::trip.trips')</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+
+                    <li class="active">
+                        <a href="{{ route('trip-categories.index') }}"><i class="fa fa-users"></i>
+                            @lang('trip::category.categories')
+                        </a>
+                    </li>
+
+                    <li class="active">
+                        <a href="{{ route('trips.index') }}"><i class="fa fa-users"></i>
+                            @lang('trip::trip.trips')
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
         </ul>
     </section>
     <!-- /.sidebar -->

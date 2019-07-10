@@ -1,12 +1,12 @@
 {
-    "name": "TripModule",
-    "alias": "tripmodule",
+    "name": "Trip",
+    "alias": "trip",
     "description": "",
     "keywords": [],
     "active": 1,
     "order": 0,
     "providers": [
-        "Modules\\TripModule\\Providers\\TripModuleServiceProvider"
+        "Modules\\Trip\\Providers\\TripServiceProvider"
     ],
     "aliases": {},
     "files": [],

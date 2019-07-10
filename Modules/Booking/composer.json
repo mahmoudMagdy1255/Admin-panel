@@ -1,5 +1,5 @@
 {
-    "name": "nwidart/bookingmodule",
+    "name": "nwidart/booking",
     "description": "",
     "authors": [
         {
@@ -10,7 +10,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Modules\\BookingModule\\Providers\\BookingModuleServiceProvider"
+                "Modules\\Booking\\Providers\\BookingServiceProvider"
             ],
             "aliases": {
                 
@@ -19,7 +19,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Modules\\BookingModule\\": ""
+            "Modules\\Booking\\": ""
         }
     }
 }
