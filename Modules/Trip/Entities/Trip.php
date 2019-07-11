@@ -2,47 +2,34 @@
 
 namespace Modules\Trip\Entities;
 
-use Dimsav\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
-use Modules\Trip\Entities\TripCategory;
-use Modules\Trip\Entities\TripPhotos;
 
 class Trip extends Model {
-	use Translatable;
 
-	public $translatedAttributes =
+	public $fillable =
 		[
 		'title',
-		'description',
-		'short_desc',
+		'desc',
 		'note',
-		'meta_title',
-		'meta_desc',
-		'meta_keywords',
-		'slug',
+		'days',
+		'price',
+		'image',
 		'include',
 		'not_include',
 	];
 
-	protected $fillable = ['trip_category_id', 'photo', 'price', 'days'];
-
-	public $translationModel = TripTranslate::class;
-
-	/**
-	 * The table associated with the model.
-	 *
-	 * @var string
-	 */
-	protected $table = 'trips';
+	public function getImageAttribute($image) {
+		return 'public/upload/trips/trips/' . $image;
+	}
 
 	# Relations.
 	public function categories() {
-		return $this->belongsToMany(TripCategory::class, 'trip_categ_pivot', 'trip_id', 'category_id');
+		return $this->belongsToMany(TripCategory::class, 'trip_categories', 'trip_id', 'category_id');
 
 	}
 
-	public function photos() {
-		return $this->hasMany(TripPhotos::class);
+	public function album() {
+		return $this->hasMany(TripImage::class);
 	}
 
 	public function program() {
@@ -50,7 +37,7 @@ class Trip extends Model {
 	}
 
 	public function destinations() {
-		return $this->belongsToMany(Destination::class, 'trip_destination', 'trip_id', 'destination_id');
+		return $this->belongsToMany(Destination::class, 'trip_destinations', 'trip_id', 'destination_id');
 	}
 
 	public function booking() {

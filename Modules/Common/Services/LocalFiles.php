@@ -5,32 +5,54 @@ use File;
 use Image;
 trait LocalFiles {
 
-	public function storeFile($file, $folder) {
+	public function storeFile($file, $folder, $option = false) {
 
 		if (request()->hasFile($file)) {
 
-			$file = request($file);
+			$files = request($file);
 
-			$img = Image::make($file);
+			if (is_array($files)) {
 
-			// now you are able to resize the instance
+				foreach ($files as $file) {
+					return $this->upload($file, $folder, $option);
+				}
 
-			$img->resize(100, 100, function ($constraint) {
-				$constraint->aspectRatio();
-			});
-
-			$img->resize(320, 240);
-
-			$image_name = $file->getClientOriginalName();
-
-			$image_path = public_path() . '/upload/' . $folder . '/' . $image_name;
-
-			// finally we save the image as a new file
-			$img->save($image_path);
-
-			return $image_name;
+			} else {
+				return $this->upload($files, $folder, $option);
+			}
 
 		}
+
+	}
+
+	private function upload($file, $folder, $option) {
+
+		$img = Image::make($file);
+
+		// now you are able to resize the instance
+
+		$img->resize(100, 100, function ($constraint) {
+			$constraint->aspectRatio();
+		});
+
+		$img->resize(320, 240);
+
+		$image_name = $file->getClientOriginalName();
+
+		$image_path = public_path() . '/upload/' . $folder . '/' . $image_name;
+
+		// finally we save the image as a new file
+		$img->save($image_path);
+
+		if ($option) {
+			return [
+				'image' => $image_name,
+				'size' => $file->getSize(),
+				'mime_type' => $file->getMimeType(),
+			];
+		}
+
+		return $image_name;
 
 	}
 

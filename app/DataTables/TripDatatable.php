@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use Modules\Service\Repositories\ServiceRepository;
+use Modules\Trip\Repositories\TripRepository;
 use URL;
 use Yajra\DataTables\Services\DataTable;
 
@@ -27,8 +27,8 @@ class TripDatatable extends DataTable {
 	 * @param \App\User $model
 	 * @return \Illuminate\Database\Eloquent\Builder
 	 */
-	public function query(ServiceRepository $serviceRepository) {
-		return $serviceRepository->query();
+	public function query(TripRepository $tripRepository) {
+		return $tripRepository->query();
 	}
 
 	/**
@@ -45,7 +45,7 @@ class TripDatatable extends DataTable {
 				'lengthMenu' => [[10, 25, 50, 100, -1], [10, 25, 50, 100, trans('adminpanel::adminpanel.all')]],
 				'buttons' => [
 					[
-						'text' => trans('adminpanel::adminpanel.add'),
+						'text' => trans('adminpanel::adminpanel.add_new'),
 						'className' => 'btn btn-info',
 						'action' => "function(){
                                     window.location.href ='" . URL::Current() . "/create';

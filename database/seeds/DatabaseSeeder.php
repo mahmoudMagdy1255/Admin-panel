@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use Modules\Admin\Database\Seeders\AdminDatabaseSeeder;
+use Modules\User\Database\Seeders\UserDatabaseSeeder;
 
 class DatabaseSeeder extends Seeder {
 	/**
@@ -11,5 +12,7 @@ class DatabaseSeeder extends Seeder {
 	 */
 	public function run() {
 		$this->call(AdminDatabaseSeeder::class);
+		$this->call(UserDatabaseSeeder::class);
+
 	}
 }

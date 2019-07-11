@@ -5,7 +5,7 @@ namespace Modules\Trip\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class TripUpdateFormRequest extends FormRequest {
+class AlbumUpdateFormRequest extends FormRequest {
 	/**
 	 * Get the validation rules that apply to the request.
 	 *
@@ -14,17 +14,9 @@ class TripUpdateFormRequest extends FormRequest {
 	public function rules() {
 
 		$rules = [
-			'title' => 'required|min:3|max:32',
-			'desc' => 'required|min:3',
+			'trip_id' => 'required|exists:trips,id',
 			'image' => 'required|image',
-			'categories' => 'required|array',
-			'destinations' => 'required|array',
-			'user_id' => 'required|exists:users,id',
-			'price' => 'required|numeric|min:1|max:1000000',
-			'days' => 'required|numeric|min:1|max:60',
-			'include' => 'sometimes|nullable',
-			'not_include' => 'sometimes|nullable',
-			'note' => 'sometimes|nullable',
+
 		];
 
 		return $rules;

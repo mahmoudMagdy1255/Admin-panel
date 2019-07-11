@@ -18,4 +18,8 @@ return array(
 	'title' => 'Title',
 	'desc' => 'Description',
 	'image' => 'Image',
+
+	'title_and_desc' => 'Title & Description',
+	'other_data' => 'Other Data',
+	'album_default_message' => 'Click Here To Upload File Or Drag Files Here',
 );

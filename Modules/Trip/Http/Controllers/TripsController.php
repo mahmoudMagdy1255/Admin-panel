@@ -8,16 +8,18 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Modules\Common\Services\LocalFiles;
+use Modules\Trip\Http\Requests\TripStoreFormRequest;
+use Modules\Trip\Http\Requests\TripUpdateFormRequest;
 use Modules\Trip\Repositories\DestinationRepository;
+use Modules\Trip\Repositories\TripAlbumRepository;
 use Modules\Trip\Repositories\TripCategoryRepository;
-use Modules\Trip\Repositories\TripPhotosRepository;
 use Modules\Trip\Repositories\TripRepository;
 use Yajra\DataTables\Facades\DataTables;
 
 class TripsController extends Controller {
 	use LocalFiles;
 
-	public function __construct(DestinationRepository $destinationRepository, TripRepository $tripRepository, TripPhotosRepository $tripPicRepository, TripCategoryRepository $tripCategRepository) {
+	public function __construct(DestinationRepository $destinationRepository, TripRepository $tripRepository, TripAlbumRepository $tripPicRepository, TripCategoryRepository $tripCategRepository) {
 		$this->tripRepository = $tripRepository;
 		$this->tripCategRepository = $tripCategRepository;
 		$this->tripPicRepository = $tripPicRepository;
@@ -64,29 +66,19 @@ class TripsController extends Controller {
 	 * @param  Request $request
 	 * @return Response
 	 */
-	public function store(Request $request) {
-		$tripData = $request->except('_token', 'photo', 'photos', 'destinations', 'trip_category_id');
-		$tripDestinations = $request->get('destinations');
-		$tripCategoriesId = $request->get('trip_category_id');
+	public function store(TripStoreFormRequest $request) {
 
-		if ($request->hasFile('photo')) {
-			$image = $request->file('photo');
-			$imageName = $this->upload($image, 'trip', true); // resize option executed.
-			$tripData['photo'] = $imageName;
-		}
+		$data = $request->validated();
 
-		# Loop through product_photos_many to save photos first.
-		$trip_pics = [];
-		if ($request->hasFile('photos')) {
-			$photos = $request->file('photos');
-			$trip_pics = $this->uploadAlbum($photos, 'trips');
-		}
+		$data['image'] = $this->storeFile('image', 'trips/trips');
+		$data = array_filter($data);
 
-//        dd($tripData , $trip_pics , $tripDestinations , $tripCategoriesId);
+		$trip = $this->tripRepository->create($data);
 
-		$this->tripRepo->save($tripData, $trip_pics, $tripDestinations, $tripCategoriesId);
+		$this->tripRepository->addCategories($trip, $data['categories']);
+		$this->tripRepository->addDestinations($trip, $data['destinations']);
 
-		return redirect('admin-panel/trip')->with('success', 'success');
+		return redirect()->route('trips.trip-albums.create', $trip)->with('success', trans('trip::trip.created_and_continue_to_choose_album'));
 	}
 
 	/**
@@ -120,7 +112,7 @@ class TripsController extends Controller {
 	 * @param  Request $request
 	 * @return Response
 	 */
-	public function update(Request $request, $id) {
+	public function update(TripUpdateFormRequest $request, $id) {
 		$tripPic = $this->tripRepo->find($id);
 		$tripData = $request->except('_token', '_method', 'photo', 'photos', 'de', 'en', 'es', 'ru', 'fr', 'it', 'destinations', 'categories');
 

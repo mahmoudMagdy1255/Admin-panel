@@ -17,9 +17,14 @@ class TripStoreFormRequest extends FormRequest {
 			'title' => 'required|min:3|max:32',
 			'desc' => 'required|min:3',
 			'image' => 'required|image',
-			'category_id' => 'required|exists:trip_categories,id',
-			'user_id' => 'required|numeric',
+			'categories' => 'required|array',
+			'destinations' => 'required|array',
+			'user_id' => 'required|exists:users,id',
 			'price' => 'required|numeric|min:1|max:1000000',
+			'days' => 'required|numeric|min:1|max:60',
+			'include' => 'sometimes|nullable',
+			'not_include' => 'sometimes|nullable',
+			'note' => 'sometimes|nullable',
 		];
 
 		return $rules;

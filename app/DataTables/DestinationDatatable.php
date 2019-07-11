@@ -45,7 +45,7 @@ class DestinationDatatable extends DataTable {
 				'lengthMenu' => [[10, 25, 50, 100, -1], [10, 25, 50, 100, trans('adminpanel::adminpanel.all')]],
 				'buttons' => [
 					[
-						'text' => trans('adminpanel::adminpanel.add'),
+						'text' => trans('adminpanel::adminpanel.add_new'),
 						'className' => 'btn btn-info',
 						'action' => "function(){
                                     window.location.href ='" . URL::Current() . "/create';

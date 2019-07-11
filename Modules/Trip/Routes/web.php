@@ -14,12 +14,12 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
 
 	Route::group(['prefix' => 'admin', 'middleware' => ['admin:admin']], function () {
 
-		Route::delete('/trip-photos/delete/{id}', 'TripsController@deletePic');
-		Route::post('/trip-photos', 'TripsController@storeAlbum');
-
 		Route::resource('/trip-categories', 'TripCategoriesController');
 
 		Route::resource('/trips', 'TripsController');
+
+		Route::delete('/trip/delete-album', 'TripAlbumsController@destroy')->name('delete-album');
+		Route::resource('trips.trip-albums', 'TripAlbumsController');
 
 		Route::resource('/destinations', 'DestinationController');
 

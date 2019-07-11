@@ -15,10 +15,10 @@ class AdminDatatable extends DataTable {
 	 */
 	public function dataTable($query) {
 		return datatables($query)
-            ->addColumn('checkbox', 'admin::datatables.btn.checkbox')
+			->addColumn('checkbox', 'admin::datatables.btn.checkbox')
 			->addColumn('control', 'admin::datatables.control')
 			->addColumn('image', 'admin::datatables.image')
-			->rawColumns(['control', 'image','checkbox']);
+			->rawColumns(['control', 'image', 'checkbox']);
 	}
 
 	/**
@@ -45,26 +45,26 @@ class AdminDatatable extends DataTable {
 				'lengthMenu' => [[10, 25, 50, 100, -1], [10, 25, 50, 100, trans('adminpanel::adminpanel.all')]],
 				'buttons' => [
 					[
-						'text' => trans('adminpanel::adminpanel.add'),
+						'text' => trans('adminpanel::adminpanel.add_new'),
 						'className' => 'btn btn-info',
 						'action' => "function(){
                                     window.location.href ='" . URL::Current() . "/create';
                                 }",
 					],
-                    [
-                        'extend'=>'export','text'=>'<i class="fa fa-file-archive-o"></i>'.__('admin::admin.export'),'className'=>'btn btn-primary','init' => 'function(api, node, config) {$(node).removeClass("dt-button")}'
-                    ],
-                    [
-                        'extend'=>'print','text'=>'<i class="fa fa-print"></i>'.__('admin::admin.print'),'className'=>'btn btn-success','init' => 'function(api, node, config) {$(node).removeClass("dt-button")}'
-                    ],
-                    [
-                        'extend'=>'reset','text'=>'<i class="fa fa-refresh"></i>','className'=>'btn btn-info','init' => 'function(api, node, config) {$(node).removeClass("dt-button")}'
-                    ],
-                    [
-                        'text'=>'<i class="fa fa-trash-o"></i>'.__('admin::admin.delete_all'),'className'=>'btn btn-danger delBtn','init' => 'function(api, node, config) {$(node).removeClass("dt-button")}'
-                    ],
+					[
+						'extend' => 'export', 'text' => '<i class="fa fa-file-archive-o"></i>' . __('admin::admin.export'), 'className' => 'btn btn-primary', 'init' => 'function(api, node, config) {$(node).removeClass("dt-button")}',
+					],
+					[
+						'extend' => 'print', 'text' => '<i class="fa fa-print"></i>' . __('admin::admin.print'), 'className' => 'btn btn-success', 'init' => 'function(api, node, config) {$(node).removeClass("dt-button")}',
+					],
+					[
+						'extend' => 'reset', 'text' => '<i class="fa fa-refresh"></i>', 'className' => 'btn btn-info', 'init' => 'function(api, node, config) {$(node).removeClass("dt-button")}',
+					],
+					[
+						'text' => '<i class="fa fa-trash-o"></i>' . __('admin::admin.delete_all'), 'className' => 'btn btn-danger delBtn', 'init' => 'function(api, node, config) {$(node).removeClass("dt-button")}',
+					],
 				],
-                'language' => yajra_lang(),
+				'language' => yajra_lang(),
 			]);
 	}
 
@@ -75,15 +75,15 @@ class AdminDatatable extends DataTable {
 	 */
 	protected function getColumns() {
 		return [
-            [
-                'name'=>'checkbox',
-                'data'=>'checkbox',
-                'title'=>'<input type="checkbox" name="check_all" class="form-check check_all">',
-                'sortable'=>false,
-                'printable'=>false,
-                'exportable'=>false,
-                'orderable'=>false,
-            ],
+			[
+				'name' => 'checkbox',
+				'data' => 'checkbox',
+				'title' => '<input type="checkbox" name="check_all" class="form-check check_all">',
+				'sortable' => false,
+				'printable' => false,
+				'exportable' => false,
+				'orderable' => false,
+			],
 			[
 				'name' => 'id',
 				'data' => 'id',

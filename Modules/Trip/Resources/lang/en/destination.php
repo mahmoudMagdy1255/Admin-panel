@@ -14,4 +14,6 @@ return [
 
 	'destination' => 'Destination',
 	'destinations' => 'Destinations',
+	'created_and_continue_to_choose_album' => 'Data Created Successfully , Now Continue To Choose Album',
+
 ];
