@@ -1,285 +1,203 @@
-@extends('commonmodule::layouts.master')
-@section('title') {{__('tripmodule::trip.trips')}}
-@endsection
-
-@section('css')
-<!-- Select2 -->
-<link rel="stylesheet" href="{{adminurl('bower_components/select2/dist/css/select2.min.css')}}"> {{-- Metro CSS --}}
-<link rel="stylesheet" href="{{adminurl('treeview.css')}}">
-@endsection
-
-@section('content-header')
-<section class="content-header">
-    <h1> {{__('tripmodule::trip.trips')}} </h1>
-
-</section>
-@endsection
+@extends('adminpanel::layouts.master')
 
 @section('content')
-<section class="content">
-    <!-- Horizontal Form -->
-    <div class="box box-info">
-        <div class="box-header with-border">
-            <h3 class="box-title">{{__('tripmodule::trip.trips')}}</h3>
-        </div>
-        @if (count($errors) > 0) @foreach ($errors->all() as $item)
-        <p class="alert alert-danger">{{$item}}</p>
-        @endforeach @endif
-        <!-- /.box-header -->
-        <form class="form-horizontal" action="{{url('/admin-panel/trip')}}/{{ $trip->id }}" method="POST" enctype="multipart/form-data">
-            {{ csrf_field() }} {{ method_field('PUT') }}
 
-            <div class="box-body">
+@push('css')
+    <link rel="stylesheet" href="{{ admin_design('/bower_components/select2/dist/css/select2.min.css') }}">
 
-                <div class="col-md-12">
-                    <div class="nav-tabs-custom">
-                        <ul class="nav nav-tabs">
-                            @foreach($activeLang as$lang)
-                            <li @if($loop->first) class="active" @endif >
-                                <a href="#{{ $lang->display_lang }}" data-toggle="tab">{{ $lang->display_lang }}</a>
-                            </li>
-                            @endforeach
-                        </ul>
-                        <div class="tab-content">
-                            @foreach($activeLang as $key=>$lang)
-                            <div class="tab-pane @if($loop->first) active @endif" id="{{ $lang->display_lang }}">
-
-                                <div class="form-group">
-                                    {{-- title --}}
-                                    <label class="control-label col-sm-2" for="title">{{__('tripmodule::trip.title')}} :</label>
-                                    <div class="col-sm-8">
-                                        <input id="title" type="text" autocomplete="off" class="form-control" name="{{ $lang->lang }}[title]" @if($loop->first) required @endif value="{{ ValueOf($trip, $lang, 'title') }}">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    {{-- Description --}}
-                                    <label class="control-label col-sm-2" for="title">{{__('tripmodule::trip.desc')}}:</label>
-                                    <div class="col-sm-8">
-                                        <textarea id="desc{{ $lang->id }}" name="{{ $lang->lang }}[description]" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">{{ ValueOf($trip, $lang, 'description') }}</textarea>
-                                    </div>
-                                </div>
+    <link rel="stylesheet" href="{{ admin_design('plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css') }}">
 
 
-                                <div class="form-group">
-                                    {{-- Short Description --}}
-                                    <label class="control-label col-sm-2" for="title">{{__('tripmodule::trip.short_desc')}}:</label>
-                                    <div class="col-sm-8">
-                                        <textarea id="short_desc{{ $lang->id }}" name="{{ $lang->lang }}[short_desc]" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">{{ ValueOf($trip, $lang, 'short_desc') }}</textarea>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    {{-- include --}}
-                                    <label class="control-label col-sm-2" for="title">{{__('tripmodule::trip.include')}}:</label>
-                                    <div class="col-sm-8">
-                                        <textarea id="include{{ $lang->id }}" name="{{ $lang->lang }}[include]" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">{{ ValueOf($trip, $lang, 'include') }}</textarea>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    {{-- Not include --}}
-                                    <label class="control-label col-sm-2" for="title">{{__('tripmodule::trip.not_include')}}:</label>
-                                    <div class="col-sm-8">
-                                        <textarea id="not_include{{ $lang->id }}" name="{{ $lang->lang }}[not_include]" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">{{ ValueOf($trip, $lang, 'not_include') }}</textarea>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    {{-- Note --}}
-                                    <label class="control-label col-sm-2" for="title">{{__('tripmodule::trip.note')}}:</label>
-                                    <div class="col-sm-8">
-                                        <textarea id="note{{ $lang->id }}" name="{{ $lang->lang }}[note]" style="width: 100%; height: 80px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">{{ ValueOf($trip, $lang, 'note') }}</textarea>
-                                    </div>
-                                </div>
-                            </div>
-                            @endforeach
-                        </div>
-                        <!-- /.tab-content -->
-                    </div>
-                    <!-- /.nav-tabs-custom -->
-
-                    {{-- Upload photo --}}
-                    <div class="form-group">
-                        <label class="control-label col-sm-2" for="photo">{{__('tripmodule::trip.photo')}} :</label>
-                        <div class="col-sm-4">
-                            <input data-validation="required" type="file" autocomplete="off" name="photo"> @if ($trip->photo)
-                            <br>
-                            <img src={{ asset( "public/images/trip/thumb/".$trip->photo) }}>
-                            <br> @else
-                            <br>
-                            <strong>"No Photo"</strong>
-                            <br> @endif
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        {{-- Price --}}
-                        <label class="control-label col-sm-2" for="title">{{__('tripmodule::trip.price')}} :</label>
-                        <div class="col-sm-3">
-                            <input id="price" type="text" value="{{ $trip->price }}" autocomplete="off" class="form-control" name="price"
-                                   required>
-                        </div>
-
-                        <label class="control-label col-sm-2" for="title">{{__('tripmodule::trip.days')}} :</label>
-                            <div class="col-sm-3">
-                                <input id="days" type="text" value="{{ $trip->days }}" autocomplete="off" class="form-control" name="days" required>
-                            </div>
-
-                    </div>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.css">
 
 
-                    {{-- Select Category --}}
-                    <div class="form-group">
-                        <label class="control-label col-sm-2" for="title">{{trans('tripmodule::trip.category')}}:</label>
-                        <div class="col-sm-9">
-                            <select class="form-control select2" name="categories[]" multiple>
-                            @foreach($categs as $cat)
-                                <option value="{{ $cat->id }}" @if( in_array($cat->id , $trip->categories()->get()->pluck('id')->toArray()) ) selected @endif>{{ $cat->title }}</option>
-                            @endforeach
-                            </select>
-                        </div>
+@endpush
 
-                    </div>
+@push('js')
 
 
-{{--                    <div class="form-group">--}}
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.js"></script>
 
-{{--                        <label class="control-label col-sm-2" for="title">{{__('tripmodule::trip.child_price')}} :</label>--}}
-{{--                        <div class="col-sm-3">--}}
-{{--                            <input id="price" type="text" autocomplete="off" class="form-control"--}}
-{{--                                   value="{{ $trip->child_price }}"--}}
-{{--                                   name="child_price"--}}
-{{--                                   required>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
+<script src="{{ admin_design('bower_components/fastclick/lib/fastclick.js')}}"></script>
 
-                    {{-- Select destinations --}}
-                    <div class="form-group">
-                        <br>
-                        <label class="control-label col-sm-2" for="title">{{trans('tripmodule::trip.destinations')}} :</label>
-                        <div class="col-sm-9">
-                            <select class="form-control select2" name="destinations[]" multiple="multiple">
-                                @foreach ($destinations as $item)
-                                    <option value="{{ $item->id }}" @if(in_array($item->id, $selected_categ_ids)) selected @endif>{{ $item->title }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
+<script src="{{ admin_design('bower_components/ckeditor/ckeditor.js') }}"></script>
+<!-- Bootstrap WYSIHTML5 -->
+<script src="{{ admin_design('plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js')}}"></script>
 
-
-                    <div class="form-group">
-                        <div class="box-header">
-                            <pre><h4>SEO Columns : </h4></pre>
-                        </div>
-                    </div>
-
-                    <div class="col-md-12">
-                        <div class="nav-tabs-custom">
-                            <ul class="nav nav-tabs">
-                                @foreach($activeLang as $lang)
-                                <li @if($loop->first) class="active" @endif >
-                                    <a href="#seo{{ $lang->display_lang }}" data-toggle="tab">{{ $lang->display_lang }}</a>
-                                </li>
-                                @endforeach
-                            </ul>
-
-                            <div class="tab-content">
-                                @foreach($activeLang as $lang)
-                                <div class="tab-pane @if($loop->first) active @endif" id="seo{{ $lang->display_lang }}">
-
-
-                                    <div class="form-group">
-                                        {{-- Meta Title --}}
-                                        <label class="control-label col-sm-2" for="title"> {{__('tripmodule::trip.mt')}} :</label>
-                                        <div class="col-sm-8">
-                                            <input id="countTitleLettrs" type="text"
-                                            autocomplete="off" class="form-control" name="{{ $lang->lang }}[meta_title]" value="{{ ValueOf($trip, $lang, 'meta_title') }}">
-                                            <span id="titleSpan"></span>
-                                        </div>
-
-                                    </div>
-
-                                    <div class="form-group">
-                                        {{-- Meta Description --}}
-                                        <label class="control-label col-sm-2" for="desc"> {{__('tripmodule::trip.md')}} :</label>
-                                        <div class="col-sm-8">
-                                            <textarea id="countDescLettrs" class="form-control" autocomplete="off"
-                                                name="{{ $lang->lang }}[meta_desc]" cols="15" rows="2">{{ ValueOf($trip, $lang, 'meta_desc') }}</textarea>
-                                            <span id="descSpan"></span>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        {{-- Meta Keywords --}}
-                                        <label class="control-label col-sm-2" for="tags"> Meta Keywords / {{__('tripmodule::trip.tags')}} :</label>
-                                        <div class="col-sm-8">
-                                            <input id="countKeyWords" autocomplete="off"
-                                            type="text" class="form-control" name="{{ $lang->lang }}[meta_keywords]" value="{{ ValueOf($trip, $lang, 'meta_keywords') }}">
-                                            <span id="tagsSpan"></span>
-                                        </div>
-                                    </div>
-
-                                    <!-- Slug -->
-                                    <div class="form-group">
-                                        <label class="control-label col-sm-2" for="slug">Slug : </label>
-                                        <div class="col-sm-8">
-                                            <input type="text" autocomplete="off" class="form-control"
-                                            name="{{ $lang->lang }}[slug]" value="{{ ValueOf($trip, $lang, 'slug') }}">
-                                        </div>
-                                    </div>
-
-                                </div>
-                                @endforeach
-
-
-                            </div>
-                            <!-- /.tab-content -->
-                        </div>
-                        <!-- /.nav-tabs-custom -->
-                    </div>
-
-                </div>
-                <!-- /.box-body -->
-                <div class="box-footer">
-                    <a href="{{url('/admin-panel/trip')}}" type="button" class="btn btn-default">{{__('tripmodule::trip.cancel')}} &nbsp; <i class="fa fa-remove" aria-hidden="true"></i> </a>
-
-                    <button type="submit" class="btn btn-primary pull-right">{{__('tripmodule::trip.submit')}} &nbsp; <i class="fa fa-save"></i></button>
-                </div>
-                <!-- /.box-footer -->
-        </form>
-        </div>
-</section>
-@endsection
-
-@section('javascript') {{-- Treeview --}}
-<script src="{{adminurl('metro.js')}}"></script>
-
-{{-- jQuery Count letters --}}
-    @include('tripmodule::Trip.js') {{-- jQuery Bind data --}}
-    @include('tripmodule::Trip.copy')
-
-<!-- CK Editor -->
-<script src="{{adminurl('bower_components/ckeditor/ckeditor.js')}}"></script>
-
-<!-- Select2 -->
-<script src="{{adminurl('bower_components/select2/dist/js/select2.full.min.js')}}"></script>
+<script src="{{ admin_design('bower_components/select2/dist/js/select2.full.min.js')}}"></script>
 
 <script>
-    //Initialize Select2 Elements
-  $('.select2').select2();
+  $(function () {
+    CKEDITOR.replace('desc')
+      $('.textarea').wysihtml5();
 
+    CKEDITOR.replace('include')
+    $('.textarea').wysihtml5();
+
+    CKEDITOR.replace('not_include')
+    $('.textarea').wysihtml5();
+
+    CKEDITOR.replace('note')
+    $('.textarea').wysihtml5();
+
+    CKEDITOR.config.language = "{{ app()->getLocale() }}";
+
+    $('.select2').select2();
+
+    // Dropzone.autoDiscover = false;
+
+    // $('#album').dropzone({
+
+    //     paramName:'image',
+    //     uploadMultiple:true,
+    //     maxFileSize:5,
+    //     acceptedFiles:'images/*',
+    //     addRemoveLinks:true,
+    //     dictDefaultMessage:@lang('trip::trip.album_default_message'),
+    //     dictRemoveFile:'{{ trans('adminpanel::adminpanel.delete')}}',
+    //     params:{
+    //         _token:"{{ csrf_token() }}"
+    //     }
+
+    // });
+
+ })
 </script>
 
-@foreach ($activeLang as $lang)
-<script>
-    $(function () {
-    CKEDITOR.replace('desc' + "{{ $lang->id }}");
-    CKEDITOR.replace('short_desc' + "{{ $lang->id }}");
-    CKEDITOR.replace('include' + "{{ $lang->id }}");
-    CKEDITOR.replace('not_include' + "{{ $lang->id }}");
-  });
+@endpush
 
-</script>
-@endforeach
+
+
+
+<div class="row">
+        <div class="col-md-12">
+          <!-- Custom Tabs -->
+          <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                  <a  class="btn btn-warning" href="#title_and_desc" data-toggle="tab">
+                    @lang('trip::trip.title_and_desc')
+                  </a>
+                </li>
+
+
+                <li>
+                  <a  class="btn btn-warning" href="#include_data" data-toggle="tab">
+                    @lang('trip::trip.include')
+                  </a>
+                </li>
+
+                <li>
+                  <a  class="btn btn-warning" href="#other_data" data-toggle="tab">
+                    @lang('trip::trip.other_data')
+                  </a>
+                </li>
+
+            </ul>
+
+
+            <div class="tab-content">
+
+                <div class="tab-pane active" id="title_and_desc">
+
+
+                        {!! Form::open(['route' => ['trips.update' , $trip->id] , 'files' => true , 'method' => 'PUT']) !!}
+
+                        <div class="form-group">
+                                  {!! Form::label('title' ,  trans('trip::trip.title')  ) !!}
+                                  {!! Form::text( 'title' ,  $trip->title , ['class' => 'form-control'] ) !!}
+                                </div>
+
+                        <div class="form-group">
+                                  {!! Form::label('desc' ,  trans('trip::trip.desc') ) !!}
+                                  {!! Form::textarea('desc' , $trip->desc , ['id' => 'desc' , 'class' => 'form-control'] ) !!}
+
+                        </div>
+
+
+
+                </div>
+
+
+                <div class="tab-pane" id="include_data">
+
+
+                            <div class="form-group">
+                                {!! Form::label('include' ,  trans('trip::trip.include') ) !!}
+                                      {!! Form::textarea('include' , $trip->include , ['id' => 'include' , 'class' => 'form-control'] ) !!}
+                            </div>
+
+                            <div class="form-group">
+                                {!! Form::label('not_include' ,  trans('trip::trip.not_include') ) !!}
+                                {!! Form::textarea('not_include' , $trip->not_include , ['id' => 'not_include' , 'class' => 'form-control'] ) !!}
+                            </div>
+
+                            <div class="form-group">
+                                {!! Form::label('note' ,  trans('trip::trip.note') ) !!}
+                                {!! Form::textarea('note' , $trip->note , ['id' => 'note' , 'class' => 'form-control'] ) !!}
+                            </div>
+
+                </div>
+
+                <div class="tab-pane" id="other_data">
+
+
+                            <div class="form-group">
+                                {!! Form::label('categories' ,  trans('trip::category.categories') ) !!}
+
+                                {!! Form::select('categories[]', $categories->pluck('title' , 'id')->toArray()  , $trip->categories->pluck('id')->toArray() , [ 'data-placeholder' => trans('trip::category.categories') , 'class' => 'form-control select2' , 'multiple' => "multiple" , 'style' => 'width:100%' ]) !!}
+                            </div>
+
+                            <div class="form-group">
+                                {!! Form::label('destinations' ,  trans('trip::destination.destinations') ) !!}
+
+                                {!! Form::select('destinations[]', $destinations->pluck('title' , 'id')->toArray()  , $trip->destinations->pluck('id')->toArray()  , [ 'data-placeholder' => trans('trip::destination.destinations') , 'class' => 'form-control select2' , 'multiple' => "multiple" , 'style' => 'width:100%' ]) !!}
+                            </div>
+
+                            <div class="form-group">
+                                {!! Form::label('price' ,  trans('trip::trip.price') ) !!}
+                                {!! Form::number('price' ,  $trip->price , ['placeholder' => trans('trip::trip.price') ,'id' => 'price' , 'class' => 'form-control'] ) !!}
+                            </div>
+
+                            <div class="form-group">
+                                {!! Form::label('days' ,  trans('trip::trip.days') ) !!}
+                                {!! Form::number('days' ,  $trip->days , ['placeholder' => trans('trip::trip.days') ,'id' => 'days' , 'class' => 'form-control'] ) !!}
+                            </div>
+
+                            <div class="form-group">
+                                {!! Form::label('image' ,  trans('trip::trip.image') ) !!}
+                                {!! Form::file('image' , ['id' => 'image' , 'class' => 'form-control'] ) !!}
+                            </div>
+
+                             <div class="form-group">
+                                {!! Form::label('user_id' ,  trans('user::user.user') ) !!}
+                                {!! Form::number('user_id' ,  $trip->user_id , ['placeholder' => trans('user::user.user') , 'id' => 'user_id' , 'class' => 'form-control'] ) !!}
+                            </div>
+{{--
+
+                            <div class="form-group">
+                                {!! Form::label('album' ,  trans('trip::trip.album') ) !!}
+                                <div class="dropzone" id="album"></div>
+                            </div>
+ --}}
+
+
+
+                            {!! Form::submit( trans('adminpanel::adminpanel.add') , ['class' => 'btn btn-primary'] ) !!}
+                            {!! Form::close() !!}
+                </div>
+
+
+            </div>
+
+          </div>
+          <!-- nav-tabs-custom -->
+        </div>
+
+</div>
+
+
+
+
+
 @endsection

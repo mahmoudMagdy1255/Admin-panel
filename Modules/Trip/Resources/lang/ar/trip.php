@@ -5,6 +5,8 @@ return [
 
 	# index
 	'trips' => 'الرحلات',
+	'trip' => 'الرحلة',
+
 	'short_desc' => 'وصف القصير',
 	'album' => 'ألبوم الصور',
 	'include' => 'يشمل',

@@ -16,7 +16,7 @@ class TripUpdateFormRequest extends FormRequest {
 		$rules = [
 			'title' => 'required|min:3|max:32',
 			'desc' => 'required|min:3',
-			'image' => 'required|image',
+			'image' => 'sometimes|nullable|image',
 			'categories' => 'required|array',
 			'destinations' => 'required|array',
 			'user_id' => 'required|exists:users,id',

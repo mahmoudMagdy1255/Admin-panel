@@ -5,6 +5,8 @@ return array(
 
 	# index
 	'trips' => 'Trips',
+	'trip' => 'Trip',
+
 	'short_desc' => 'Short Description',
 	'album' => 'Image Album',
 	'include' => 'Include',

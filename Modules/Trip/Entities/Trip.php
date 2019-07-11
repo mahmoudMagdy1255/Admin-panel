@@ -16,6 +16,7 @@ class Trip extends Model {
 		'image',
 		'include',
 		'not_include',
+		'user_id',
 	];
 
 	public function getImageAttribute($image) {

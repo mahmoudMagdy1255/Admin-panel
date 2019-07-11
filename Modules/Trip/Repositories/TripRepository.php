@@ -18,6 +18,11 @@ class TripRepository extends BaseRepository {
 		return intval($match[0]);
 	}
 
+	public function update($trip, $data) {
+
+		return $trip->update($data);
+	}
+
 	public function search($request) {
 		$prices = explode('-', $request['price']);
 

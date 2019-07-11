@@ -1,8 +1,8 @@
-<a class="btn btn-primary" href="{{ route('trip-categories.edit' , $id) }}">
+<a class="btn btn-primary" href="{{ route('trips.edit' , $id) }}">
 	<i class="fa fa-edit"></i>
 </a>
 
-<a class="btn btn-danger" href="{{ route('trip-categories.destroy' , $id) }}" data-toggle="modal" data-target="#del_admin{{ $id }}">
+<a class="btn btn-danger" href="{{ route('trips.destroy' , $id) }}" data-toggle="modal" data-target="#del_admin{{ $id }}">
 	<i class="fa fa-trash"></i>
 </a>
 
@@ -10,7 +10,7 @@
   <i class="fa fa-image"></i>
 </a>
 
-<a class="btn btn-warning" href="{{ route('trip-categories.show' , $id) }}">
+<a class="btn btn-warning" href="{{ route('trips.show' , $id) }}">
 	<i class="fa fa-eye"></i>
 </a>
 
@@ -25,14 +25,14 @@
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         <h4 class="modal-title">@lang('adminpanel::adminpanel.delete')</h4>
       </div>
-      {!! Form::open(['route'=>['trip-categories.destroy',$id],'method'=>'DELETE']) !!}
+      {!! Form::open(['route'=>['trips.destroy',$id],'method'=>'DELETE']) !!}
       <div class="modal-body">
 
       	@php
-      		$category = trans('trip::category.category')
+      		$trip = trans('trip::trip.trip')
       	@endphp
 
-        <h4>@lang('adminpanel::adminpanel.delete_this',[ 'type' => $category , 'name'=>$title])</h4>
+        <h4>@lang('adminpanel::adminpanel.delete_this',[ 'type' => $trip , 'name'=>$title])</h4>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-info" data-dismiss="modal">@lang('adminpanel::adminpanel.close')</button>

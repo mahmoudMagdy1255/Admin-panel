@@ -3,7 +3,6 @@
 namespace Modules\Trip\Http\Controllers;
 
 use App\DataTables\TripDatatable;
-use File;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
@@ -14,7 +13,6 @@ use Modules\Trip\Repositories\DestinationRepository;
 use Modules\Trip\Repositories\TripAlbumRepository;
 use Modules\Trip\Repositories\TripCategoryRepository;
 use Modules\Trip\Repositories\TripRepository;
-use Yajra\DataTables\Facades\DataTables;
 
 class TripsController extends Controller {
 	use LocalFiles;
@@ -86,25 +84,14 @@ class TripsController extends Controller {
 	 * @return Response
 	 */
 	public function edit($id) {
-		$selected_categ_ids = [];
+		$trip = $this->tripRepository->find($id);
 
-		$trip = $this->tripRepo->find($id);
+		$categories = $this->tripCategRepository->all();
+		$destinations = $this->destinationRepository->all();
 
-		$categories = $this->categRepo->findAll();
-		$destinations = $this->destinationRepository->findAll();
+		$title = trans('adminpanel::adminpanel.edit');
 
-		if (isset($trip->destinations)) {
-			foreach ($trip->destinations as $value) {
-				$selected_categ_ids[] = $value->id;
-			}
-		}
-
-		return view('trip::Trip.edit', [
-			'trip' => $trip,
-			'categs' => $categories,
-			'selected_categ_ids' => $selected_categ_ids,
-			'destinations' => $destinations,
-		]);
+		return view('trip::trips.edit', compact('trip', 'title', 'categories', 'destinations'));
 	}
 
 	/**
@@ -113,53 +100,17 @@ class TripsController extends Controller {
 	 * @return Response
 	 */
 	public function update(TripUpdateFormRequest $request, $id) {
-		$tripPic = $this->tripRepo->find($id);
-		$tripData = $request->except('_token', '_method', 'photo', 'photos', 'de', 'en', 'es', 'ru', 'fr', 'it', 'destinations', 'categories');
+		$data = $request->validated();
 
-		$activeLangCode = \LanguageHelper::getDynamicLangCode();
+		$trip = $this->tripRepository->find($id);
 
-		$trip_trans = $request->only($activeLangCode);
+		$data['image'] = $this->deleteAndStoreNewFile($trip->image, 'image', 'trips/trips');
 
-		$tripDestinations = $request->get('destinations');
-		$tripCategories = $request->get('categories');
+		$data = array_filter($data);
 
-		if ($request->hasFile('photo')) {
-			// Delete old image first.
-			$thumbnail_path = public_path() . '/images/trip/thumb/' . $tripPic->photo;
-			$thumbnail_path2 = public_path() . '/images/trip/' . $tripPic->photo;
-			File::delete([$thumbnail_path, $thumbnail_path2]);
+		$this->tripRepository->update($trip, $data);
 
-			// Save the new one.
-			$image = $request->file('photo');
-			$imageName = $this->upload($image, 'trip', true); // resize option executed.
-			$tripData['photo'] = $imageName;
-		}
-
-		$this->tripRepo->update($id, $tripData, $trip_trans, $tripDestinations, $tripCategories);
-
-		return redirect('admin-panel/trip')->with('updated', 'updated');
-	}
-
-	/**
-	 * Update Album Photos
-	 *
-	 * @param   Request  $request  [$request description]
-	 *
-	 * @return  [type]             [return description]
-	 */
-	public function storeAlbum(Request $request) {
-		$tripData = $request->except('_token', 'photos');
-
-		# Loop through product_photos_many to save photos first.
-		$trip_pics = [];
-		if ($request->hasFile('photos')) {
-			$photos = $request->file('photos');
-			$trip_pics = $this->uploadAlbum($photos, 'trips');
-		}
-
-		$this->tripRepo->updateAlbumPhotos($tripData, $trip_pics);
-
-		return redirect('admin-panel/trip')->with('updated', 'updated');
+		return redirect()->route('trips.index')->with('success', trans('adminpanel::adminpanel.updated'));
 	}
 
 	/**
@@ -167,81 +118,13 @@ class TripsController extends Controller {
 	 * @return Response
 	 */
 	public function destroy($id) {
-		$trip = $this->tripRepo->find($id);
+		$trip = $this->tripRepository->find($id);
 
-		# Get The trip photo album, then pass it to repo to delete it
-		$this->tripPicRepo->delete($trip);
+		$this->tripRepository->destroy($id);
 
-		# Delete the Main photo and Thumbnail.
-		$this->tripRepo->delete($trip);
+		$this->deleteFile($trip->image);
 
-		return redirect()->back();
+		return back()->with('success', trans('adminpanel::adminpanel.deleted'));
 	}
 
-	public function dataTables() {
-		$trips = $this->tripRepo->findAll();
-
-		return DataTables::of($trips)
-			->addColumn('name', function ($row) {
-				return substr($row->title, 0, 60);
-			})
-			->addColumn('price', function ($row) {
-				return $row->price;
-			})
-			->addColumn('category', function ($row) {
-				$categories = '';
-
-				foreach ($row->categories as $category) {
-
-					$categories .= $category->title . ' , ';
-
-				}
-
-				return rtrim($categories, ', ');
-			})
-			->addColumn('destination', function ($row) {
-
-				$desArr = [];
-				foreach ($row->destinations as $des) {
-					$desArr[] = $des->title;
-				}
-
-				return $desArr;
-
-			})
-			->addColumn('days', function ($row) {
-				return $row->days;
-
-			})
-			->addColumn('photo', function ($row) {
-				if ($row->photo) {
-					return '<img width="150px" height="50px" src=' . asset("public/images/trip/thumb/" . $row->photo) . '/>';
-				} else {
-					return '<strong> No Photo </strong>';
-				}
-			})
-			->addColumn('operations', function ($row) {
-				$delete_tag = '<a href="' . url('admin-panel/trip/delete', $row->id) . '" class="btn btn btn-danger" onclick="return confirm(\'Are you sure, You want to delete this Data?\')"><i class="glyphicon glyphicon-trash"></i></a>';
-				$edit_tag = '<a href="' . url("admin-panel/trip/" . $row->id . "/edit") . '" type="button" class="btn btn-primary"><i class="fa fa-pencil" aria-hidden="true"></i></a>';
-				$show_tag = '<a href="' . url("admin-panel/trip/" . $row->id) . '" type="button" class="btn btn-success"><i class="fa fa-eye" aria-hidden="true"></i></a>';
-				$prog_tag = '<a href="' . url("admin-panel/trip-program/" . $row->id) . '" type="button" class="btn btn-warning"><i class="fa fa-map" aria-hidden="true"></i></a>';
-
-				return $prog_tag . ' &nbsp; ' . $show_tag . ' &nbsp; ' . $edit_tag . ' &nbsp; ' . $delete_tag;
-			})
-
-			->rawColumns(['delete' => 'delete', 'operations' => 'operations', 'program' => 'program', 'photo' => 'photo'])
-			->make(true);
-	}
-
-	/**
-	 * Delete Specific photo from the Album.
-	 *
-	 * @param   [type]  $id  [$id description]
-	 *
-	 * @return  [type]       [return description]
-	 */
-	public function deletePic($id) {
-		$this->tripPicRepo->deletePic($id);
-		return redirect()->back();
-	}
 }
