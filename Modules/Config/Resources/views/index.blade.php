@@ -94,7 +94,7 @@
                                         <div class="panel-body no-padding-left-right">
                                             <div class="col-md-10 no-padding-left-right">
 
-                                                <input type="text" value="{{ $config->translate($localeCode)->title ?? old($localeCode.'[title]') }}" class="form-control" placeholder="@lang('config::config.title')" name="{{ $localeCode }}[title]">
+                                                <input type="text" value="{{ $config ? $config->translate($localeCode)->title : old($localeCode.'[title]') }}" class="form-control" placeholder="@lang('config::config.title')" name="{{ $localeCode }}[title]">
                                             </div>
 
                                         </div>
@@ -114,7 +114,7 @@
                                             <div class="col-md-10 no-padding-left-right">
 
                                                 <textarea class="form-control" name="{{ $localeCode }}[desc]" placeholder="@lang('config::config.desc')">
-                                                     {{ $config->translate($localeCode)->desc ?? old($localeCode."[desc]") }}
+                                                     {{ $config ? $config->translate($localeCode)->desc : old($localeCode."[desc]") }}
                                                 </textarea>
                                             </div>
 
@@ -136,7 +136,7 @@
                                         <div class="panel-body no-padding-left-right">
                                             <div class="col-md-10 no-padding-left-right">
 
-                                                <input type="text" class="form-control" name="{{ $localeCode }}[address]"  value="{{ $config->translate($localeCode)->address ??  old( $localeCode.'[address]') }}"  placeholder="@lang('config::config.address')">
+                                                <input type="text" class="form-control" name="{{ $localeCode }}[address]"  value="{{ $config ? $config->translate($localeCode)->address :  old( $localeCode.'[address]') }}"  placeholder="@lang('config::config.address')">
                                             </div>
 
                                         </div>
@@ -192,7 +192,7 @@
                             </div>
 
 
-                            @if($config->logo)
+                            @if($config and $config->logo)
                                 <div class="form-group">
                                     <img width="100px" height="100px" class="img-thumbnail" src="{{ asset($config->logo) }}" alt="your image" />
                                 </div>
@@ -213,7 +213,7 @@
                                 </div>
                             </div>
 
-                            @if($config->background)
+                            @if($config and $config->background)
                                 <div class="form-group">
                                     <img width="100px" height="100px" class="img-thumbnail" src="{{ asset($config->background) }}" alt="your image" />
                                 </div>
