@@ -64,7 +64,7 @@
                 <ul class="treeview-menu">
 
                     <li class="active">
-                        <a href="{{ route('service-categories.index') }}"><i class="fa fa-users"></i>
+                        <a href="{{ route('service-categories.index') }}"><i class="fa fa-flag"></i>
                             @lang('service::category.categories')
                         </a>
                     </li>
@@ -79,7 +79,7 @@
 
             <li class=" {{ active('trips') }} treeview">
                 <a href="#">
-                    <i class="fa fa-users"></i> <span>@lang('trip::trip.trips')</span>
+                    <i class="fa fa-plane"></i> <span>@lang('trip::trip.trips')</span>
                     <span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i>
                     </span>
@@ -87,21 +87,38 @@
                 <ul class="treeview-menu">
 
                     <li class="active">
-                        <a href="{{ route('trip-categories.index') }}"><i class="fa fa-users"></i>
+                        <a href="{{ route('trip-categories.index') }}"><i class="fa fa-flag"></i>
                             @lang('trip::category.categories')
                         </a>
                     </li>
 
 
                     <li class="active">
-                        <a href="{{ route('destinations.index') }}"><i class="fa fa-users"></i>
+                        <a href="{{ route('destinations.index') }}"><i class="fa fa-globe-asia"></i>
                             @lang('trip::destination.destinations')
                         </a>
                     </li>
 
                     <li class="active">
-                        <a href="{{ route('trips.index') }}"><i class="fa fa-users"></i>
+                        <a href="{{ route('trips.index') }}"><i class="fa fa-plane"></i>
                             @lang('trip::trip.trips')
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class=" {{ active('configs') }} treeview">
+                <a href="#">
+                    <i class="fa fa-cog"></i> <span>@lang('config::config.configs')</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+
+                    <li class="active">
+                        <a href="{{ route('configs.index') }}"><i class="fa fa-cog"></i>
+                            @lang('config::config.configs')
                         </a>
                     </li>
                 </ul>

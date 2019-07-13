@@ -17,5 +17,6 @@ return [
 	'main_navigation' => 'Main Navigation',
 	'online' => 'Online',
 	'search' => 'Search',
+	'save' => 'Save',
 
 ];
